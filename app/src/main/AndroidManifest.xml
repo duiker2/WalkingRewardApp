@@ -34,7 +34,10 @@
 
         <activity
             android:name=".WalkingActivity"
-            android:label="@string/title_activity_walking">
+            android:label="@string/title_activity_walking"
+            android:theme="@style/AppTheme"
+            >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,12 +47,19 @@
 
         <activity
             android:name=".ChooseGoalActivity"
-            android:label="Choose Goal">
+            android:label="Choose Goal"
+            android:theme="@style/AppTheme"
+            >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WalkingActivity" />
         </activity>
 
         <activity
