@@ -11,6 +11,7 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import java.util.Date;
 
@@ -21,6 +22,7 @@ import java.util.Date;
 public class StatisticsActivity extends Activity implements View.OnClickListener {
 
     private Button chooseDateButton;
+    private DatePickerFragment dialogFragment;
 
     @Override
     protected void onCreate(Bundle SavedInstanceState){
@@ -34,6 +36,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
+        private StatisticsActivity activity;
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -47,18 +50,28 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
 
-        public void onDateSet(DatePicker view, int year, int month, int dat) {
-            // Do something with the time chosen by the user
+        public void setActivity(StatisticsActivity activity) {
+            this.activity = activity;
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            activity.onDateSelected(year, month, day);
         }
     }
 
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getFragmentManager(), "datePicker");
+        dialogFragment = new DatePickerFragment();
+        dialogFragment.setActivity(this);
+        dialogFragment.show(getFragmentManager(), "datePicker");
     }
 
     public void onClick(View v){
         if (v.getId() == R.id.choose_date_button)
             showDatePickerDialog(v);
+    }
+
+    public void onDateSelected(int year, int month, int day) {
+        dialogFragment.dismiss();
+        Toast.makeText(this, "Select date success", Toast.LENGTH_SHORT).show();
     }
 }
