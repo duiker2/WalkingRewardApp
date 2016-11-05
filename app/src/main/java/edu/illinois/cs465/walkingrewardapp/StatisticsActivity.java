@@ -7,7 +7,9 @@ import android.app.DialogFragment;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.text.format.DateFormat;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -73,5 +75,15 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
     public void onDateSelected(int year, int month, int day) {
         dialogFragment.dismiss();
         Toast.makeText(this, "Select date success", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
