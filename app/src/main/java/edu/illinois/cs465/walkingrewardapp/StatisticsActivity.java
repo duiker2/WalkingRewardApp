@@ -8,6 +8,7 @@ import java.util.GregorianCalendar;
 import java.util.Calendar;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +22,7 @@ import java.util.Date;
  * Created by mengxiongliu on 05/11/2016.
  */
 
-public class StatisticsActivity extends Activity implements View.OnClickListener {
+public class StatisticsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button chooseDateButton;
     private DatePickerFragment dialogFragment;
@@ -31,8 +32,15 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.activity_statistics);
 
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch(NullPointerException ex) {
+            ex.printStackTrace();
+        }
+
         chooseDateButton = (Button) findViewById(R.id.choose_date_button);
         chooseDateButton.setOnClickListener(this);
+
     }
 
 
