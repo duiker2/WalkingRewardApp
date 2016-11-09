@@ -40,7 +40,6 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -53,7 +52,6 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -61,6 +59,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".WalkingActivity" />
         </activity>
+
+        <activity
+            android:name=".RewardsActivity"
+            android:label="My Rewards"
+            android:theme="@style/AppTheme"
+            >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WalkingActivity" />
+        </activity>
+
 
         <activity
             android:name=".ViewGoalActivity"
@@ -81,11 +96,14 @@
 
         <activity
             android:name=".StatisticsActivity"
-            android:label="Statistics">
+            android:label="Statistics"
+            >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".WalkingActivity" />

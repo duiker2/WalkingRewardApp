@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,4 +9,55 @@
         android:layout_height="wrap_content"
         android:text="Pick Date" />
 
-</LinearLayout>
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/statistics_table"
+        android:layout_below="@+id/choose_date_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1">
+        <TableRow>
+            <TextView
+                android:text="Traveled"
+                android:padding="3dip" />
+            <TextView
+                android:id="@+id/traveled"
+                android:text=""
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Earned"
+                android:padding="3dip" />
+            <TextView
+                android:id="@+id/earned"
+                android:text=""
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Used"
+                android:padding="3dip" />
+            <TextView
+                android:id="@+id/used"
+                android:text=""
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Saved"
+                android:padding="3dip" />
+            <TextView
+                android:id="@+id/saved"
+                android:text=""
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

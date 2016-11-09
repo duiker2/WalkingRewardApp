@@ -17,6 +17,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import java.io.Serializable;
 
 import edu.illinois.cs465.walkingrewardapp.Data.Goal;
@@ -30,17 +33,23 @@ public class ChooseGoalActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private List<Challenge> goals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_goal);
+
         try {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch(NullPointerException ex) {
-            int x = 1;
+            ex.printStackTrace();
         }
 
+        initGoals();
+
+        CustomList adapter = new CustomList(this, goals);
+        list = (ListView)findViewById(R.id.goal_list);
         //Todo: Make the CustomList constructor accept an array of goals instead of needing to split it up here
         Goal[] goals = Library.getGoals();
         String[] names = new String[goals.length];
@@ -58,11 +67,18 @@ public class ChooseGoalActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
+                Toast.makeText(ChooseGoalActivity.this, "You Clicked at " + goals.get(position).getReward(), Toast.LENGTH_SHORT).show();
                 Goal[] goals = Library.getGoals();
                 openActivity(ViewGoalActivity.class, goals[position]);
 
             }
         });
+    }
+
+    private void initGoals() {
+        goals = new ArrayList<>();
+        goals.add(new Challenge("Chipotle", "2000 steps", R.drawable.chipotle));
+        goals.add(new Challenge("McDonald's", "2000 steps", R.drawable.mcdonalds));
     }
 
     //code is from https://developer.android.com/training/implementing-navigation/ancestral.html

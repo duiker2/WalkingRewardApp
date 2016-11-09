@@ -13,29 +13,31 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomList extends ArrayAdapter<String>{
+import java.util.List;
+
+public class CustomList extends ArrayAdapter<Challenge>{
 
     private final Activity context;
-    private final String[] web;
-    private final Integer[] imageId;
-    public CustomList(Activity context,
-                      String[] web, Integer[] imageId) {
-        super(context, R.layout.list_item_image_text, web);
-        this.context = context;
-        this.web = web;
-        this.imageId = imageId;
+    private final List<Challenge> challenges;
 
+    public CustomList(Activity context, List<Challenge> challenges) {
+        super(context, R.layout.list_item_image_text, challenges);
+        this.context = context;
+        this.challenges = challenges;
     }
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView= inflater.inflate(R.layout.list_item_image_text, null, true);
-        TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
+        TextView txtReward = (TextView) rowView.findViewById(R.id.rewards);
+        txtReward.setText(challenges.get(position).getReward());
 
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
-        txtTitle.setText(web[position]);
+        TextView txtGoal = (TextView) rowView.findViewById(R.id.goals);
+        txtGoal.setText(challenges.get(position).getGoal());
 
-        imageView.setImageResource(imageId[position]);
+        ImageView imageView = (ImageView) rowView.findViewById(R.id.restaurant_icon);
+        imageView.setImageResource(challenges.get(position).getImage());
         return rowView;
     }
 }

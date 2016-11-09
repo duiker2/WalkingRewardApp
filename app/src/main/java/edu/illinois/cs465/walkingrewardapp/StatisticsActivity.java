@@ -14,9 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by mengxiongliu on 05/11/2016.
@@ -26,6 +29,9 @@ public class StatisticsActivity extends AppCompatActivity implements View.OnClic
 
     private Button chooseDateButton;
     private DatePickerFragment dialogFragment;
+    private TableLayout statisticsTable;
+
+    private HashMap<String, String> staticStatistics = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle SavedInstanceState){
@@ -41,6 +47,15 @@ public class StatisticsActivity extends AppCompatActivity implements View.OnClic
         chooseDateButton = (Button) findViewById(R.id.choose_date_button);
         chooseDateButton.setOnClickListener(this);
 
+        statisticsTable = (TableLayout) findViewById(R.id.statistics_table);
+        initStatistics();
+    }
+
+    private void initStatistics() {
+        staticStatistics.put("Traveled", "4.5 miles");
+        staticStatistics.put("Earned", "2 coupons");
+        staticStatistics.put("Used", "1 coupon");
+        staticStatistics.put("Saved", "$2.24");
     }
 
 
@@ -83,6 +98,15 @@ public class StatisticsActivity extends AppCompatActivity implements View.OnClic
     public void onDateSelected(int year, int month, int day) {
         dialogFragment.dismiss();
         Toast.makeText(this, "Select date success", Toast.LENGTH_SHORT).show();
+
+        TextView traveled = (TextView) findViewById(R.id.traveled);
+        traveled.setText(staticStatistics.get("Traveled"));
+        TextView earned = (TextView) findViewById(R.id.earned);
+        earned.setText(staticStatistics.get("Earned"));
+        TextView used = (TextView) findViewById(R.id.used);
+        used.setText(staticStatistics.get("Used"));
+        TextView saved = (TextView) findViewById(R.id.saved);
+        saved.setText(staticStatistics.get("Saved"));
     }
 
     @Override
