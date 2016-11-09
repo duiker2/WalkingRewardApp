@@ -28,15 +28,16 @@ public class ChooseGoalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_goal);
+
         try {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
-        } catch(NullPointerException e) {
-            e.printStackTrace();
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch(NullPointerException ex) {
+            ex.printStackTrace();
         }
 
         initGoals();
 
-        CustomList adapter = new CustomList(ChooseGoalActivity.this, goals);
+        CustomList adapter = new CustomList(this, goals);
         list = (ListView)findViewById(R.id.goal_list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

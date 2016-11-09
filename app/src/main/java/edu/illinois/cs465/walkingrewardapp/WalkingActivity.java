@@ -86,7 +86,7 @@ public class WalkingActivity extends AppCompatActivity implements OnMapReadyCall
                 openActivity(ChooseGoalActivity.class);
                 break;
             case R.id.action_my_rewards:
-                Toast.makeText(getApplicationContext(), "Thanks for clicking the Rewards button!", Toast.LENGTH_SHORT).show();
+                openActivity(RewardsActivity.class);
                 break;
             case R.id.action_view_statistics:
                 openActivity(StatisticsActivity.class);
