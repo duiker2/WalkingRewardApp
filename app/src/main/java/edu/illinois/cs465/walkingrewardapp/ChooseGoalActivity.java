@@ -17,16 +17,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChooseGoalActivity extends AppCompatActivity {
     private ListView list;
-    private String[] web = {
-            "Chipotle",
-            "McDonald's",
-    } ;
-    private Integer[] imageId = {
-            R.drawable.chipotle,
-            R.drawable.mcdonalds,
-    };
+    private List<Challenge> goals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,23 +30,30 @@ public class ChooseGoalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_goal);
         try {
             getActionBar().setDisplayHomeAsUpEnabled(true);
-        } catch(NullPointerException ex) {
-            int x = 1;
+        } catch(NullPointerException e) {
+            e.printStackTrace();
         }
 
-        CustomList adapter = new
-                CustomList(ChooseGoalActivity.this, web, imageId);
-        list=(ListView)findViewById(R.id.goal_list);
+        initGoals();
+
+        CustomList adapter = new CustomList(ChooseGoalActivity.this, goals);
+        list = (ListView)findViewById(R.id.goal_list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Toast.makeText(ChooseGoalActivity.this, "You Clicked at " +web[+ position], Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChooseGoalActivity.this, "You Clicked at " + goals.get(position).getReward(), Toast.LENGTH_SHORT).show();
 
             }
         });
+    }
+
+    private void initGoals() {
+        goals = new ArrayList<>();
+        goals.add(new Challenge("Chipotle", "2000 steps", R.drawable.chipotle));
+        goals.add(new Challenge("McDonald's", "2000 steps", R.drawable.mcdonalds));
     }
 
     //code is from https://developer.android.com/training/implementing-navigation/ancestral.html
