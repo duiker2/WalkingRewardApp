@@ -17,16 +17,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.Serializable;
+
+import edu.illinois.cs465.walkingrewardapp.Data.Goal;
+
 public class ChooseGoalActivity extends AppCompatActivity {
     private ListView list;
-    private String[] web = {
-            "Chipotle",
-            "McDonald's",
-    } ;
-    private Integer[] imageId = {
-            R.drawable.chipotle,
-            R.drawable.mcdonalds,
-    };
+
+    protected void openActivity(Class<?> activity, Serializable parameter) {
+        Intent intent = new Intent(this, activity);
+        intent.putExtra("data", parameter);
+        startActivity(intent);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +41,16 @@ public class ChooseGoalActivity extends AppCompatActivity {
             int x = 1;
         }
 
+        //Todo: Make the CustomList constructor accept an array of goals instead of needing to split it up here
+        Goal[] goals = Library.getGoals();
+        String[] names = new String[goals.length];
+        Integer[] images = new Integer[goals.length];
+        for(int i = 0 ; i < goals.length ; i++) {
+            names[i] = goals[i].getTitle();
+            images[i] = goals[i].getImage();
+        }
         CustomList adapter = new
-                CustomList(ChooseGoalActivity.this, web, imageId);
+                CustomList(ChooseGoalActivity.this, names, images);
         list=(ListView)findViewById(R.id.goal_list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -47,7 +58,8 @@ public class ChooseGoalActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Toast.makeText(ChooseGoalActivity.this, "You Clicked at " +web[+ position], Toast.LENGTH_SHORT).show();
+                Goal[] goals = Library.getGoals();
+                openActivity(ViewGoalActivity.class, goals[position]);
 
             }
         });
