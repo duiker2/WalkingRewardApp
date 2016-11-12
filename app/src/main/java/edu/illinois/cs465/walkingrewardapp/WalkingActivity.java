@@ -93,6 +93,13 @@ public class WalkingActivity extends AppCompatActivity implements
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE);
         }
+
+        try {
+            String message = getIntent().getExtras().getString("start_message");
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e) {
+        }
     }
 
     /**
