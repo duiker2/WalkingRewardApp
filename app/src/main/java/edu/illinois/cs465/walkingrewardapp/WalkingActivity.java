@@ -1,11 +1,23 @@
 package edu.illinois.cs465.walkingrewardapp;
 
+import android.*;
+import android.Manifest;
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +26,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,13 +37,43 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class WalkingActivity extends AppCompatActivity implements OnMapReadyCallback {
+import static java.lang.Double.valueOf;
 
+
+public class WalkingActivity extends AppCompatActivity implements
+        OnMapReadyCallback,
+        ActivityCompat.OnRequestPermissionsResultCallback,
+        LocationListener
+{
+
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private boolean mPermissionDenied = false;
     private GoogleMap mMap;
+    LocationManager locationManager;
+    String locationProvider;
 
     protected void openActivity(Class<?> activity) {
         Intent intent = new Intent(this, activity);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        try {
+            this.locationManager.requestLocationUpdates(this.locationProvider, 400, 1, this);
+        }
+        catch(SecurityException e){}
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            this.locationManager.removeUpdates(this);
+        }
+        catch(SecurityException e){}
     }
 
     @Override
@@ -38,6 +84,13 @@ public class WalkingActivity extends AppCompatActivity implements OnMapReadyCall
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //get the location manager
+        this.locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
+        //define the location manager criteria
+        Criteria criteria = new Criteria();
+        this.locationProvider = locationManager.getBestProvider(criteria, false);
     }
 
     /**
@@ -53,10 +106,93 @@ public class WalkingActivity extends AppCompatActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        enableMyLocation();
+
+        Location location = null;
+        try {
+            location  = locationManager.getLastKnownLocation(locationProvider);
+        }
+        catch(SecurityException e){}
+
+        //initialize the location
+        if(location != null) {
+
+            onLocationChanged(location);
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(),location.getLongitude()));
+        this.mMap.moveCamera(center);
+
+        CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+        this.mMap.animateCamera(zoom);
+    }
+
+    /**
+     * Enables the My Location layer if the fine location permission has been granted.
+     */
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission to access the location is missing.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        } else if (mMap != null) {
+            // Access to the location has been granted to the app.
+            mMap.setMyLocationEnabled(true);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
+            return;
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            // Enable the my location layer if the permission has been granted.
+            enableMyLocation();
+        } else {
+            // Display the missing permission error dialog when the fragments resume.
+            mPermissionDenied = true;
+        }
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        if (mPermissionDenied) {
+            // Permission was not granted, display error dialog.
+            showMissingPermissionError();
+            mPermissionDenied = false;
+        }
+    }
+
+    /**
+     * Displays a dialog with error message explaining that the location permission is missing.
+     */
+    private void showMissingPermissionError() {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String arg0) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String arg0) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+
     }
 
     //code from http://www.vogella.com/tutorials/AndroidActionBar/article.html
@@ -86,6 +222,8 @@ public class WalkingActivity extends AppCompatActivity implements OnMapReadyCall
                 openActivity(ChooseGoalActivity.class);
                 break;
             case R.id.action_my_rewards:
+                //Toast.makeText(getApplicationContext(), "Thanks for clicking the Rewards button!", Toast.LENGTH_SHORT).show();
+                //openActivity(MyLocationDemoActivity.class);
                 openActivity(RewardsActivity.class);
                 break;
             case R.id.action_view_statistics:

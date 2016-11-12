@@ -108,6 +108,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".WalkingActivity" />
         </activity>
+        <activity android:name=".MyLocationDemoActivity"></activity>
     </application>
 
 </manifest>
