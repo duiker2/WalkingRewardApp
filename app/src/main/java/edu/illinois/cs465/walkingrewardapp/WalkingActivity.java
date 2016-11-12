@@ -60,20 +60,21 @@ public class WalkingActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-
-        try {
-            this.locationManager.requestLocationUpdates(this.locationProvider, 400, 1, this);
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
         }
-        catch(SecurityException e){}
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        try {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
             this.locationManager.removeUpdates(this);
         }
-        catch(SecurityException e){}
     }
 
     @Override
@@ -85,18 +86,12 @@ public class WalkingActivity extends AppCompatActivity implements
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //get the location manager
-        this.locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-
-        //define the location manager criteria
-        Criteria criteria = new Criteria();
-        this.locationProvider = locationManager.getBestProvider(criteria, false);
-
-        try {
-            String message = getIntent().getExtras().getString("start_message");
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        }
-        catch (Exception e) {
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission to access the location is missing.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
         }
     }
 
@@ -116,14 +111,13 @@ public class WalkingActivity extends AppCompatActivity implements
         enableMyLocation();
 
         Location location = null;
-        try {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
             location  = locationManager.getLastKnownLocation(locationProvider);
         }
-        catch(SecurityException e){}
 
         //initialize the location
         if(location != null) {
-
             onLocationChanged(location);
         }
     }
@@ -149,7 +143,15 @@ public class WalkingActivity extends AppCompatActivity implements
                     LOCATION_PERMISSION_REQUEST_CODE);
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
+            //get the location manager
+            this.locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
+            //define the location manager criteria
+            Criteria criteria = new Criteria();
+            this.locationProvider = locationManager.getBestProvider(criteria, false);
+
             mMap.setMyLocationEnabled(true);
+            this.locationManager.requestLocationUpdates(this.locationProvider, 400, 1, this);
         }
     }
 
