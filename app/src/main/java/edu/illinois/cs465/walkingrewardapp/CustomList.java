@@ -36,7 +36,7 @@ public class CustomList extends ArrayAdapter<Challenge>{
         txtReward.setText(challenges.get(position).getDescription());
 
         TextView txtGoal = (TextView) rowView.findViewById(R.id.goals);
-        txtGoal.setText(challenges.get(position).getStepsRequired());
+        txtGoal.setText(Integer.toString(challenges.get(position).getStepsRequired()));
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.restaurant_icon);
         imageView.setImageResource(challenges.get(position).getImage());
