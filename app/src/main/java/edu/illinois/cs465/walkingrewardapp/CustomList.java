@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
+
 public class CustomList extends ArrayAdapter<Challenge>{
 
     private final Activity context;
@@ -31,10 +33,10 @@ public class CustomList extends ArrayAdapter<Challenge>{
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView= inflater.inflate(R.layout.list_item_image_text, null, true);
         TextView txtReward = (TextView) rowView.findViewById(R.id.rewards);
-        txtReward.setText(challenges.get(position).getReward());
+        txtReward.setText(challenges.get(position).getDescription());
 
         TextView txtGoal = (TextView) rowView.findViewById(R.id.goals);
-        txtGoal.setText(challenges.get(position).getGoal());
+        txtGoal.setText(challenges.get(position).getStepsRequired());
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.restaurant_icon);
         imageView.setImageResource(challenges.get(position).getImage());

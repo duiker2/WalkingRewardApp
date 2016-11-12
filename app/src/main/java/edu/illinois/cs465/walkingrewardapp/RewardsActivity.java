@@ -9,10 +9,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.reward.RewardedVideoAd;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
 
 /**
  * Created by mengxiongliu on 08/11/2016.
@@ -43,16 +43,14 @@ public class RewardsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Toast.makeText(RewardsActivity.this, "You Clicked at " + rewards.get(position).getReward(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RewardsActivity.this, "You Clicked at " + rewards.get(position).getTitle(), Toast.LENGTH_SHORT).show();
 
             }
         });
     }
 
     private void initGoals() {
-        rewards = new ArrayList<>();
-        rewards.add(new Challenge("Chipotle", "2000 steps", R.drawable.chipotle));
-        rewards.add(new Challenge("McDonald's", "2000 steps", R.drawable.mcdonalds));
+        rewards = Library.getGoals();
     }
 
     //code is from https://developer.android.com/training/implementing-navigation/ancestral.html
