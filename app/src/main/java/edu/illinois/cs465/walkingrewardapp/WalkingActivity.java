@@ -39,6 +39,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import static java.lang.Double.valueOf;
 
+import android.widget.ProgressBar;
+
 
 public class WalkingActivity extends AppCompatActivity implements
         OnMapReadyCallback,
@@ -51,6 +53,9 @@ public class WalkingActivity extends AppCompatActivity implements
     private GoogleMap mMap;
     LocationManager locationManager;
     String locationProvider;
+
+    int progress = 0;
+    ProgressBar simpleProgressBar;
 
     protected void openActivity(Class<?> activity) {
         Intent intent = new Intent(this, activity);
@@ -100,6 +105,29 @@ public class WalkingActivity extends AppCompatActivity implements
         }
         catch (Exception e) {
         }
+
+        // initiate progress
+        simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
+        setProgressValue(progress);
+    }
+
+    private void setProgressValue(final int progress) {
+
+        // set the progress
+        simpleProgressBar.setProgress(progress);
+        // thread is used to change the progress value
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                setProgressValue(progress + 10);
+            }
+        });
+        thread.start();
     }
 
     /**
