@@ -54,8 +54,9 @@ public class ChooseGoalActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Toast.makeText(ChooseGoalActivity.this, "You Clicked at " + goals.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-                openActivity(ViewGoalActivity.class, goals.get(position));
-
+                Intent intent = new Intent(ChooseGoalActivity.this, ViewGoalActivity.class);
+                intent.putExtra("goal", goals.get(position));
+                startActivity(intent);
             }
         });
     }

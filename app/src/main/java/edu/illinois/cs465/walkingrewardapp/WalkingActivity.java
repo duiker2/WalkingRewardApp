@@ -114,6 +114,13 @@ public class WalkingActivity extends AppCompatActivity implements
                     LOCATION_PERMISSION_REQUEST_CODE);
         }
 
+        try {
+            String message = getIntent().getExtras().getString("start_message");
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e) {
+        }
+
         SetupSensor();
     }
 
