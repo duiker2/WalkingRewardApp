@@ -6,6 +6,10 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -24,6 +28,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -43,9 +48,12 @@ import android.widget.ProgressBar;
 
 
 public class WalkingActivity extends AppCompatActivity implements
+        GoogleMap.OnCameraMoveListener,
+        GoogleMap.OnMyLocationButtonClickListener,
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback,
-        LocationListener
+        LocationListener,
+        SensorEventListener
 {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -71,6 +79,11 @@ public class WalkingActivity extends AppCompatActivity implements
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE);
         }
+
+        mSensorManager.registerListener(this, mStepCounterSensor,
+                SensorManager.SENSOR_DELAY_FASTEST);
+        mSensorManager.registerListener(this, mStepDetectorSensor,
+                SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     @Override
@@ -80,6 +93,13 @@ public class WalkingActivity extends AppCompatActivity implements
                 == PackageManager.PERMISSION_GRANTED) {
             this.locationManager.removeUpdates(this);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //mSensorManager.unregisterListener(this, mStepCounterSensor);
+        //mSensorManager.unregisterListener(this, mStepDetectorSensor);
     }
 
     @Override
@@ -105,6 +125,8 @@ public class WalkingActivity extends AppCompatActivity implements
         }
         catch (Exception e) {
         }
+
+        SetupSensor();
 
         // initiate progress
         simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
@@ -157,13 +179,23 @@ public class WalkingActivity extends AppCompatActivity implements
         }
     }
 
+
+    //TODO: Wyatt - camera will follow user until they movet the camera, then follow again when they click myLocationButon
     @Override
     public void onLocationChanged(Location location) {
-        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(),location.getLongitude()));
+        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
         this.mMap.moveCamera(center);
+    }
 
-        CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
-        this.mMap.animateCamera(zoom);
+    @Override
+    public void onCameraMove(){
+
+    }
+
+    boolean isFollowing = true;
+    @Override
+    public boolean onMyLocationButtonClick() {
+        return false;
     }
 
     /**
@@ -267,7 +299,6 @@ public class WalkingActivity extends AppCompatActivity implements
                 break;
             case R.id.action_my_rewards:
                 //Toast.makeText(getApplicationContext(), "Thanks for clicking the Rewards button!", Toast.LENGTH_SHORT).show();
-                //openActivity(MyLocationDemoActivity.class);
                 openActivity(RewardsActivity.class);
                 break;
             case R.id.action_view_statistics:
@@ -276,7 +307,44 @@ public class WalkingActivity extends AppCompatActivity implements
             default:
                 break;
         }
-
         return true;
+    }
+
+    private SensorManager mSensorManager;
+
+    private Sensor mStepCounterSensor;
+
+    private Sensor mStepDetectorSensor;
+
+    protected void SetupSensor()
+    {
+        mSensorManager = (SensorManager)
+                getSystemService(Context.SENSOR_SERVICE);
+        mStepCounterSensor = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        mStepDetectorSensor = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+        ((TextView)findViewById(R.id.stepCount)).setText("Step Counter Detected : 0");
+    }
+
+    public void onSensorChanged (SensorEvent e)
+    {
+        Sensor sensor = e.sensor;
+        float[] values = e.values;
+        TextView textView = (TextView)findViewById(R.id.stepCount);
+        int value = -1;
+
+        if (values.length > 0) {
+            value = (int) values[0];
+        }
+
+        //if (sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+            textView.setText("Step Counter Detected : " + value);
+        //}
+    }
+
+    public void onAccuracyChanged(Sensor s, int i)
+    {
+
     }
 }
