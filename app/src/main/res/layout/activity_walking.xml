@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:showIn="@layout/activity_main"
+    tools:showIn="@layout/activity_walking"
     tools:context=".WalkingActivity">
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,7 +14,11 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="500dp"
         tools:context="edu.illinois.cs465.walkingrewardapp.WalkingActivity" />
+    <TextView
+        android:id="@+id/stepCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

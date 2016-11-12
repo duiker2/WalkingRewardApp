@@ -13,6 +13,12 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-feature
+        android:name="@string/step_detector" android:required="false"/>
+
+    <uses-feature
+        android:name="@string/step_counter" android:required="false"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -108,7 +114,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".WalkingActivity" />
         </activity>
-        <activity android:name=".MyLocationDemoActivity"></activity>
     </application>
 
 </manifest>
