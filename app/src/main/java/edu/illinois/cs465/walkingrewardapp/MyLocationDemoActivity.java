@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+//sources
+//https://gist.github.com/ccabanero/6996756
+//https://github.com/googlemaps/android-samples/blob/master/ApiDemos/app/src/main/java/com/example/mapdemo/MyLocationDemoActivity.java
 package edu.illinois.cs465.walkingrewardapp;
 
 import com.google.android.gms.maps.CameraUpdate;
