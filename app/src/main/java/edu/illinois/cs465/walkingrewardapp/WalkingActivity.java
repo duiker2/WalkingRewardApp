@@ -91,6 +91,13 @@ public class WalkingActivity extends AppCompatActivity implements
         //define the location manager criteria
         Criteria criteria = new Criteria();
         this.locationProvider = locationManager.getBestProvider(criteria, false);
+
+        try {
+            String message = getIntent().getExtras().getString("start_message");
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e) {
+        }
     }
 
     /**

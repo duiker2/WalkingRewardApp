@@ -90,6 +90,7 @@ public class StatisticsActivity extends AppCompatActivity implements View.OnClic
         dialogFragment.show(getFragmentManager(), "datePicker");
     }
 
+    @Override
     public void onClick(View v){
         if (v.getId() == R.id.choose_date_button)
             showDatePickerDialog(v);
