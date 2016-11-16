@@ -9,14 +9,15 @@
         android:layout_height="wrap_content"
         android:text="Pick Date" />
 
-    <com.robinhood.spark.SparkView
-        android:id="@+id/spark_view"
+    <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="200dip"
+        android:layout_below="@+id/choose_date_button"
+        android:id="@+id/graph" />
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/statistics_table"
-        android:layout_below="@+id/choose_date_button"
+        android:layout_below="@+id/graph"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:stretchColumns="1">
