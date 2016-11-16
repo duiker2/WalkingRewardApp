@@ -342,17 +342,18 @@ public class WalkingActivity extends AppCompatActivity implements
                 goal = Library.getCurrentGoal();
                 if(goal != null && Library.getCurrentSteps() >= goal.getStepsRequired())
                 {
+                    //reset progress
                     Library.setCurrentSteps(0);
                     Library.addReward(goal);
                     Library.setnRewardsEarned(Library.getnRewardsEarned()+1);
-                    //TODO: notify and remove goal
+                    //remove goal
                     Library.setCurrentGoal(null);
                     goal = Library.getCurrentGoal();
                     TextView current_goal = (TextView) findViewById(R.id.goal);
                     current_goal.setText("Current Goal: None");
                     TextView description = (TextView) findViewById(R.id.description);
                     description.setText("");
-
+                    //notify
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage("You have earned a Reward!")
                             .setTitle("Congratulations!");
