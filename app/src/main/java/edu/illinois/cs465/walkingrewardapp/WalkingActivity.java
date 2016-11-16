@@ -35,6 +35,8 @@ import android.widget.ProgressBar;
 
 import edu.illinois.cs465.walkingrewardapp.Maps.TouchableWrapper;
 
+import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
+
 
 public class WalkingActivity extends AppCompatActivity implements
         GoogleMap.OnCameraMoveListener,
@@ -110,8 +112,13 @@ public class WalkingActivity extends AppCompatActivity implements
         }
 
         try {
-            String message = getIntent().getExtras().getString("start_message");
-            //Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            Challenge goal = (Challenge) getIntent().getExtras().getSerializable("goal_object");
+            TextView restaurant = (TextView) findViewById(R.id.restaurant);
+            restaurant.setText(goal.getRestaurant());
+            TextView description = (TextView) findViewById(R.id.description);
+            description.setText(goal.getDescription());
+            TextView step = (TextView) findViewById(R.id.step);
+            step.setText(Integer.toString(goal.getStepsRequired()) + "steps");
         }
             catch (Exception e) {
         }
