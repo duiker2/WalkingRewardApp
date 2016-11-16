@@ -22,8 +22,6 @@ import java.io.Serializable;
 import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
 
 public class ChooseGoalActivity extends AppCompatActivity {
-    private ListView list;
-
     protected void openActivity(Class<?> activity, Serializable parameter) {
         Intent intent = new Intent(this, activity);
         intent.putExtra("data", parameter);
@@ -43,10 +41,10 @@ public class ChooseGoalActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
 
-        initGoals();
+        goals = Library.getGoals();
 
         CustomList adapter = new CustomList(this, goals);
-        list = (ListView)findViewById(R.id.goal_list);
+        ListView list = (ListView)findViewById(R.id.goal_list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -59,10 +57,6 @@ public class ChooseGoalActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    private void initGoals() {
-        goals = Library.getGoals();
     }
 
     //code is from https://developer.android.com/training/implementing-navigation/ancestral.html
