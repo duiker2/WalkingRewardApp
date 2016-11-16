@@ -57,6 +57,10 @@ public class Challenge implements Serializable {
         return timeCompleted;
     }
 
+    public void setTimeCompleted(Date d) {
+        timeCompleted = d;
+    }
+
     public String getCompletedTimeString(int dateFormat) {
         if(timeCompleted == null)
             return null;
