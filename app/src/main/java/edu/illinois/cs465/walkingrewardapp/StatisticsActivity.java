@@ -20,6 +20,9 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.robinhood.spark.SparkAdapter;
+import com.robinhood.spark.SparkView;
+
 import java.util.Date;
 import java.util.HashMap;
 
@@ -33,9 +36,8 @@ public class StatisticsActivity extends AppCompatActivity implements View.OnClic
     private DatePickerFragment dialogFragment;
     private TableLayout statisticsTable;
 
-    private SQLiteDatabase db;
-
     private HashMap<String, String> staticStatistics = new HashMap<>();
+    private SparkView sparkView;
 
     @Override
     protected void onCreate(Bundle SavedInstanceState){
@@ -53,6 +55,34 @@ public class StatisticsActivity extends AppCompatActivity implements View.OnClic
 
         statisticsTable = (TableLayout) findViewById(R.id.statistics_table);
         initStatistics();
+
+        sparkView = (SparkView) findViewById(R.id.spark_view);
+        double[] data = {1.0, 2.0, 10.0};
+        sparkView.setAdapter(new CustomSparkAdapter(data));
+    }
+
+    private class CustomSparkAdapter extends SparkAdapter {
+        private double[] data;
+
+        public CustomSparkAdapter(double[] data) {
+            this.data = data;
+        }
+
+        @Override
+        public int getCount() {
+            return data.length;
+        }
+
+        @Override
+        public Object getItem(int index) {
+            return data[index];
+        }
+
+        @Override
+        public float getY(int index) {
+            return (float) data[index];
+        }
+
     }
 
     private void initStatistics() {
