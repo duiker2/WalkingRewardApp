@@ -7,10 +7,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/walk_background"
-        android:scaleType = "centerCrop"
-        android:alpha="0.15"
-        android:contentDescription="Background Image"
+        android:src="@drawable/walk_background_washout"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/background_image_description"
         />
 
     <LinearLayout
@@ -20,50 +19,38 @@
         android:padding="25dp"
         >
 
-        <RelativeLayout
+        <include
+            layout="@layout/view_challenge_heading"
+            android:layout_height="0dp"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
-            >
+            android:layout_weight="1"
+            />
 
-            <ImageView
-                android:id="@+id/restaurant_icon"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:contentDescription="Restaurant Icon"
-                android:src="@drawable/chipotle"
-                />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/view_goal_restaurant"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="24sp"
-                android:maxLines="2"
-                android:gravity="start|center_vertical"
-                android:layout_margin="10dp"
-                android:layout_toEndOf="@+id/restaurant_icon"
+                android:id="@+id/view_goal_steps"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="20sp"
+                android:layout_weight="1"
                 />
-        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/view_goal_description"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="12dp"
-            />
-
-        <!-- code from https://guides.codepath.com/android/floating-action-buttons -->
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/view_goal_select"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            android:src="@drawable/walk"
-            android:clickable="true"
-            app:fabSize="normal"
-            app:backgroundTint="@color/colorPrimary"
-            />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/view_goal_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:src="@drawable/walk"
+                android:clickable="true"
+                app:fabSize="normal"
+                app:backgroundTint="@color/colorPrimary"
+                />
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>
