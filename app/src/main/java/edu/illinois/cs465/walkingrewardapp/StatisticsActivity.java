@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
+
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +32,8 @@ public class StatisticsActivity extends AppCompatActivity implements View.OnClic
     private Button chooseDateButton;
     private DatePickerFragment dialogFragment;
     private TableLayout statisticsTable;
+
+    private SQLiteDatabase db;
 
     private HashMap<String, String> staticStatistics = new HashMap<>();
 

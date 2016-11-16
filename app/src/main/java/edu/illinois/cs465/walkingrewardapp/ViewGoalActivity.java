@@ -48,6 +48,7 @@ public class ViewGoalActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v){
         if (v.getId() == R.id.view_goal_select) {
             Intent intent = new Intent(this, WalkingActivity.class);
+            intent.putExtra("goal_object", goal);
             intent.putExtra("start_message", "Start your goal now");
             startActivity(intent);
         }
