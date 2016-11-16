@@ -2,6 +2,7 @@ package edu.illinois.cs465.walkingrewardapp;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
@@ -16,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -340,10 +342,33 @@ public class WalkingActivity extends AppCompatActivity implements
                 goal = Library.getCurrentGoal();
                 if(goal != null && Library.getCurrentSteps() >= goal.getStepsRequired())
                 {
+                    //reset progress
                     Library.setCurrentSteps(0);
                     Library.addReward(goal);
                     Library.setnRewardsEarned(Library.getnRewardsEarned()+1);
-                    //TODO: notify and remove goal
+                    //remove goal
+                    Library.setCurrentGoal(null);
+                    goal = Library.getCurrentGoal();
+                    TextView current_goal = (TextView) findViewById(R.id.goal);
+                    current_goal.setText("Current Goal: None");
+                    TextView description = (TextView) findViewById(R.id.description);
+                    description.setText("");
+                    //notify
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("You have earned a Reward!")
+                            .setTitle("Congratulations!");
+                    builder.setPositiveButton("View My Rewards", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            openActivity(RewardsActivity.class);
+                        }
+                    });
+                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
             }
 

@@ -14,9 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
 
@@ -33,27 +31,29 @@ public class CustomList extends ArrayAdapter<Challenge>{
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
+        Challenge thisChallenge = challenges.get(position);
+
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView= inflater.inflate(R.layout.list_item_image_text, null, true);
 
         TextView txtRestaurant = (TextView) rowView.findViewById(R.id.restaurant_name);
-        txtRestaurant.setText(challenges.get(position).getRestaurant());
+        txtRestaurant.setText(thisChallenge.getRestaurant());
 
         TextView txtReward = (TextView) rowView.findViewById(R.id.rewards);
-        txtReward.setText(challenges.get(position).getDescription());
+        txtReward.setText(thisChallenge.getDescription());
 
         TextView txtGoal = (TextView) rowView.findViewById(R.id.goals);
-        if(challenges.get(position).getTimestampCompleted() == null) {
+        if(thisChallenge.getTimeCompleted() == null) {
             //the challenge is not completed.  show the number of steps required
-            txtGoal.setText(Integer.toString(challenges.get(position).getStepsRequired()) + " steps");
+            txtGoal.setText(thisChallenge.getStringTimeLimitMinutes() + ", " + Integer.toString(thisChallenge.getStepsRequired()) + " steps");
         }
         else {
             //the challenge is completed.  show the date/time it was completed
-            txtGoal.setText("Completed " + challenges.get(position).getCompletedTimeString(DateFormat.SHORT));
+            txtGoal.setText("Completed " + thisChallenge.getCompletedTimeString(DateFormat.SHORT));
         }
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.restaurant_icon);
-        imageView.setImageResource(challenges.get(position).getImage());
+        imageView.setImageResource(thisChallenge.getImage());
         return rowView;
     }
 }

@@ -31,11 +31,11 @@ public class Library {
         if(goals == null) {
             goals = new ArrayList<Challenge>();
             goals.add(new Challenge("Chipotle BOGO", "Chipotle", "Walk really far to earn your b" +
-                    "uy-one-get-one-free burrito!", 12000, R.drawable.chipotle, null));
+                    "uy-one-get-one-free burrito!", 12000, 24 * 60, R.drawable.chipotle, null));
             goals.add(new Challenge("Cheese!", "McDonald's", "Craving a cheeseburger?  Walk 8000 steps to " +
-                    "get a free cheeseburger with any meal.", 8000, R.drawable.mcdonalds, null));
+                    "get a free cheeseburger with any meal.", 8000, 24 * 60, R.drawable.mcdonalds, null));
             goals.add(new Challenge("Short Goal!", "McDonald's", "Craving a cheeseburger?  Walk 10 steps to " +
-                    "get 10 cents off", 10, R.drawable.mcdonalds, null));
+                    "get 10 cents off", 10, 2, R.drawable.mcdonalds, null));
         }
         return goals;
     }
@@ -43,10 +43,15 @@ public class Library {
     public static ArrayList<Challenge> getRewards() {
         if(rewards == null) {
             rewards = new ArrayList<Challenge>();
-            rewards.add(new Challenge("Chipotle BOGO", "Chipotle", "Walk really far to earn your b" +
-                    "uy-one-get-one-free burrito!", 12000, R.drawable.chipotle, null));
-            rewards.add(new Challenge("Cheese!", "McDonald's", "Craving a cheeseburger?  Walk 8000 steps to " +
-                    "get a free cheeseburger with any meal.", 8000, R.drawable.mcdonalds, null));
+            try {
+                rewards.add(new Challenge("Free Sandwich", "Panera", "Want a free sandwich at your " +
+                        "favorite coffee shop/bakery/sandwich shop?  Walk 15000 steps in one day " +
+                        "and you'll earn it!", 15000, 24 * 60, R.drawable.panera,
+                        new SimpleDateFormat("MM/dd/yy").parse("11/02/16")));
+            }
+            catch(ParseException ex) {
+                ex.printStackTrace();
+            }
         }
         return rewards;
     }
