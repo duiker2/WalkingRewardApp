@@ -1,8 +1,6 @@
 package edu.illinois.cs465.walkingrewardapp;
 
-import android.*;
 import android.Manifest;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,35 +14,26 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import static java.lang.Double.valueOf;
 
 import android.widget.ProgressBar;
+
+import edu.illinois.cs465.walkingrewardapp.Maps.TouchableWrapper;
 
 
 public class WalkingActivity extends AppCompatActivity implements
@@ -53,7 +42,8 @@ public class WalkingActivity extends AppCompatActivity implements
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback,
         LocationListener,
-        SensorEventListener
+        SensorEventListener,
+        TouchableWrapper.UpdateMapAfterUserInterection
 {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -121,9 +111,9 @@ public class WalkingActivity extends AppCompatActivity implements
 
         try {
             String message = getIntent().getExtras().getString("start_message");
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
-        catch (Exception e) {
+            catch (Exception e) {
         }
 
         SetupSensor();
@@ -164,7 +154,7 @@ public class WalkingActivity extends AppCompatActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        mMap.setOnMyLocationButtonClickListener(this);
         enableMyLocation();
 
         Location location = null;
@@ -180,11 +170,15 @@ public class WalkingActivity extends AppCompatActivity implements
     }
 
 
-    //TODO: Wyatt - camera will follow user until they movet the camera, then follow again when they click myLocationButon
+    boolean isFollowing = true;
     @Override
     public void onLocationChanged(Location location) {
-        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
-        this.mMap.moveCamera(center);
+        if(isFollowing) {
+            CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+            this.mMap.moveCamera(center);
+            CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
+            this.mMap.animateCamera(zoom);
+        }
     }
 
     @Override
@@ -192,12 +186,15 @@ public class WalkingActivity extends AppCompatActivity implements
 
     }
 
-    boolean isFollowing = true;
     @Override
     public boolean onMyLocationButtonClick() {
+        isFollowing = true;
         return false;
     }
 
+    public void onUpdateMapAfterUserInterection() {
+        isFollowing = false;
+    }
     /**
      * Enables the My Location layer if the fine location permission has been granted.
      */
@@ -243,17 +240,8 @@ public class WalkingActivity extends AppCompatActivity implements
     protected void onResumeFragments() {
         super.onResumeFragments();
         if (mPermissionDenied) {
-            // Permission was not granted, display error dialog.
-            showMissingPermissionError();
             mPermissionDenied = false;
         }
-    }
-
-    /**
-     * Displays a dialog with error message explaining that the location permission is missing.
-     */
-    private void showMissingPermissionError() {
-
     }
 
     @Override

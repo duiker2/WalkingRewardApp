@@ -19,7 +19,8 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            tools:context="edu.illinois.cs465.walkingrewardapp.WalkingActivity" />
+            tools:context="edu.illinois.cs465.walkingrewardapp.WalkingActivity"
+            class="edu.illinois.cs465.walkingrewardapp.Maps.MySupportMapFragment"/>
 
         <TextView
             android:id="@+id/goal"
