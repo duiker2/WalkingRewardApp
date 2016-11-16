@@ -32,11 +32,15 @@ public class CustomList extends ArrayAdapter<Challenge>{
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView= inflater.inflate(R.layout.list_item_image_text, null, true);
+
+        TextView txtRestaurant = (TextView) rowView.findViewById(R.id.restaurant_name);
+        txtRestaurant.setText(challenges.get(position).getRestaurant());
+
         TextView txtReward = (TextView) rowView.findViewById(R.id.rewards);
         txtReward.setText(challenges.get(position).getDescription());
 
         TextView txtGoal = (TextView) rowView.findViewById(R.id.goals);
-        txtGoal.setText(Integer.toString(challenges.get(position).getStepsRequired()));
+        txtGoal.setText(Integer.toString(challenges.get(position).getStepsRequired()) + " steps");
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.restaurant_icon);
         imageView.setImageResource(challenges.get(position).getImage());

@@ -11,22 +11,28 @@
         android:layout_centerVertical="true"
         android:orientation="vertical"
         android:padding="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp">
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+
+        <TextView
+            android:id="@+id/restaurant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/rewards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="name"
-            android:textSize="18sp" />
+            android:textSize="12sp"
+            android:layout_marginEnd="60dp"
+            />
 
         <TextView
             android:id="@+id/goals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="price"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -35,15 +41,16 @@
         android:orientation="horizontal"
         android:padding="0dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentEnd="true">
 
         <ImageView
             android:id="@+id/restaurant_icon"
             android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="top"
-            android:layout_alignParentRight="true"
-            android:onClick="addToFavoriteList"/>
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_alignParentEnd="true"
+            android:onClick="addToFavoriteList"
+            />
 
     </LinearLayout>
 
