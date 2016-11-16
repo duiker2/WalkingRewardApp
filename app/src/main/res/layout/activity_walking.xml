@@ -5,28 +5,30 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:showIn="@layout/activity_walking"
     tools:context=".WalkingActivity">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:context="edu.illinois.cs465.walkingrewardapp.WalkingActivity"
+        class="edu.illinois.cs465.walkingrewardapp.Maps.MySupportMapFragment"
+        android:layout_weight="2.6"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:map="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="380dp"
-            tools:context="edu.illinois.cs465.walkingrewardapp.WalkingActivity"
-            class="edu.illinois.cs465.walkingrewardapp.Maps.MySupportMapFragment"/>
+        android:layout_height="0dp"
+        android:id="@+id/menu"
+        android:layout_weight="1"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/map"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:layout_centerHorizontal="true"
@@ -64,8 +66,8 @@
             android:max="100"
             android:progress="0"
             android:progressTint="#1f1"
-            android:progressBackgroundTint="#e0ed1e"
-            android:startColor="#e0ed1e"
+            android:progressBackgroundTint="#c0cb18"
+            android:startColor="#c0cb18"
             />
 
     </RelativeLayout>

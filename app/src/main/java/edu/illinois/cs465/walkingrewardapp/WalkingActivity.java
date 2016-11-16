@@ -22,6 +22,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -134,6 +136,9 @@ public class WalkingActivity extends AppCompatActivity implements
         try {
             Library.setCurrentGoal((Challenge) getIntent().getExtras().getSerializable("goal_object"));
             goal = Library.getCurrentGoal();
+            //ViewGroup.LayoutParams params = getFragmentManager().findFragmentById(R.id.map).getView().getLayoutParams();
+            //params.height=100;
+            findViewById(R.id.menu).setVisibility(View.VISIBLE);
             TextView current_goal = (TextView) findViewById(R.id.goal);
             current_goal.setText("Current Goal: " + goal.getRestaurant());
             TextView description = (TextView) findViewById(R.id.description);
