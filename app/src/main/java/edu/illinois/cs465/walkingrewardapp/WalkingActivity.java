@@ -29,6 +29,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import static edu.illinois.cs465.walkingrewardapp.R.id.goal;
 import static java.lang.Double.valueOf;
 
 import android.widget.ProgressBar;
@@ -36,7 +37,7 @@ import android.widget.ProgressBar;
 import edu.illinois.cs465.walkingrewardapp.Maps.TouchableWrapper;
 
 import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
-
+import edu.illinois.cs465.walkingrewardapp.Library;
 
 public class WalkingActivity extends AppCompatActivity implements
         GoogleMap.OnCameraMoveListener,
@@ -332,19 +333,30 @@ public class WalkingActivity extends AppCompatActivity implements
     public void onSensorChanged (SensorEvent e)
     {
         Sensor sensor = e.sensor;
-        float[] values = e.values;
-        TextView textView = (TextView)findViewById(R.id.stepCount);
+        if (sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+            float[] values = e.values;
+            TextView textView = (TextView) findViewById(R.id.stepCount);
 
-        if (values.length > 0) {
-            value = (int) values[0];
-        }
+            if (values.length > 0) {
+                value = (int) values[0];
+                Library.setTotalSteps(value);
+                Library.setCurrentSteps(Library.getCurrentSteps()+1);
+                Challenge goal = null;
+                try{
+                    goal = (Challenge) getIntent().getExtras().getSerializable("goal_object");
+                }
+                catch(Exception ex){}
+                if(goal != null && Library.getCurrentSteps() >= goal.getStepsRequired())
+                {
 
-        //if (sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+                }
+            }
+
             textView.setText("Step Counter Detected : " + value);
-        //}
 
-        TextView progress = (TextView) findViewById(R.id.progress);
-        progress.setText(Integer.toString(value) + "/" + Integer.toString(maxSteps) + " steps");
+            TextView progress = (TextView) findViewById(R.id.progress);
+            progress.setText(Integer.toString(value) + "/" + Integer.toString(maxSteps) + " steps");
+        }
     }
 
     public void onAccuracyChanged(Sensor s, int i)

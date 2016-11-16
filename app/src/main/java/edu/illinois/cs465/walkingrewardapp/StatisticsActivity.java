@@ -61,7 +61,7 @@ public class StatisticsActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initStatistics() {
-        staticStatistics.put("Traveled", Integer.toString(totalSteps) + " steps");
+        staticStatistics.put("Traveled", Integer.toString(Library.getTotalSteps()) + " steps");
         String temp = Integer.toString(totalCouponsEarned) + " coupon";
         if (totalCouponsSpent != 1) temp += "s";
         staticStatistics.put("Earned", temp);

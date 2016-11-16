@@ -53,7 +53,7 @@ public class RewardsActivity extends AppCompatActivity {
     }
 
     private void initGoals() {
-        rewards = Library.getGoals();
+        rewards = Library.getRewards();
     }
 
     //code is from https://developer.android.com/training/implementing-navigation/ancestral.html
