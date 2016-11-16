@@ -54,6 +54,7 @@ public class WalkingActivity extends AppCompatActivity implements
     private GoogleMap mMap;
     LocationManager locationManager;
     String locationProvider;
+    Challenge goal;
 
     int progress = 0;
     ProgressBar simpleProgressBar;
@@ -80,6 +81,19 @@ public class WalkingActivity extends AppCompatActivity implements
                 SensorManager.SENSOR_DELAY_FASTEST);
         mSensorManager.registerListener(this, mStepDetectorSensor,
                 SensorManager.SENSOR_DELAY_FASTEST);
+
+        try {
+            goal = Library.getCurrentGoal();
+            TextView current_goal = (TextView) findViewById(R.id.goal);
+            current_goal.setText("Current Goal: " + goal.getRestaurant());
+            TextView description = (TextView) findViewById(R.id.description);
+            description.setText(goal.getDescription());
+            maxSteps = goal.getStepsRequired();
+            TextView progress = (TextView) findViewById(R.id.progress);
+            progress.setText(Integer.toString(Library.getCurrentSteps()) + "/" + Integer.toString(maxSteps) + " steps");
+        }
+        catch (Exception e) {
+        }
     }
 
     @Override
@@ -116,14 +130,15 @@ public class WalkingActivity extends AppCompatActivity implements
         }
 
         try {
-            Challenge goal = (Challenge) getIntent().getExtras().getSerializable("goal_object");
+            Library.setCurrentGoal((Challenge) getIntent().getExtras().getSerializable("goal_object"));
+            goal = Library.getCurrentGoal();
             TextView current_goal = (TextView) findViewById(R.id.goal);
             current_goal.setText("Current Goal: " + goal.getRestaurant());
             TextView description = (TextView) findViewById(R.id.description);
             description.setText(goal.getDescription());
             maxSteps = goal.getStepsRequired();
             TextView progress = (TextView) findViewById(R.id.progress);
-            progress.setText(Integer.toString(value) + "/" + Integer.toString(maxSteps) + " steps");
+            progress.setText(Integer.toString(Library.getCurrentSteps()) + "/" + Integer.toString(maxSteps) + " steps");
         }
             catch (Exception e) {
         }
@@ -151,7 +166,7 @@ public class WalkingActivity extends AppCompatActivity implements
                 setProgressValue(progress + 10);
             }
         });
-        thread.start();
+        thread.start();//*/
     }
 
     /**
@@ -324,10 +339,6 @@ public class WalkingActivity extends AppCompatActivity implements
                 .getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         mStepDetectorSensor = mSensorManager
                 .getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-        //((TextView)findViewById(R.id.stepCount)).setText("Step Counter Detected : 0");
-
-        //TextView progress = (TextView) findViewById(R.id.progress);
-        //progress.setText(Integer.toString(value) + "/" + Integer.toString(maxSteps));
     }
 
     public void onSensorChanged (SensorEvent e)
@@ -341,21 +352,20 @@ public class WalkingActivity extends AppCompatActivity implements
                 value = (int) values[0];
                 Library.setTotalSteps(value);
                 Library.setCurrentSteps(Library.getCurrentSteps()+1);
-                Challenge goal = null;
-                try{
-                    goal = (Challenge) getIntent().getExtras().getSerializable("goal_object");
-                }
-                catch(Exception ex){}
+                goal = Library.getCurrentGoal();
                 if(goal != null && Library.getCurrentSteps() >= goal.getStepsRequired())
                 {
-
+                    Library.setCurrentSteps(0);
+                    Library.addReward(goal);
+                    Library.setnRewardsEarned(Library.getnRewardsEarned()+1);
+                    //TODO: notify and remove goal
                 }
             }
 
             textView.setText("Step Counter Detected : " + value);
 
             TextView progress = (TextView) findViewById(R.id.progress);
-            progress.setText(Integer.toString(value) + "/" + Integer.toString(maxSteps) + " steps");
+            progress.setText(Integer.toString(Library.getCurrentSteps()) + "/" + Integer.toString(maxSteps) + " steps");
         }
     }
 

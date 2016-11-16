@@ -13,8 +13,18 @@ import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
 public class Library {
     private static int totalSteps = 0;
     private static int currentSteps = 0;
-    private static ArrayList<Challenge>  goals;
-    private static ArrayList<Challenge>  rewards;
+    private static int nRewardsEarned = 0;
+    private static ArrayList<Challenge>  goals = null;
+    private static ArrayList<Challenge>  rewards = null;
+    private static Challenge currentGoal = null;
+
+    public static void setCurrentGoal(Challenge c){
+        currentGoal = c;
+    }
+
+    public static Challenge getCurrentGoal(){
+        return currentGoal;
+    }
 
     public static ArrayList<Challenge> getGoals() {
         if(goals == null) {
@@ -23,6 +33,8 @@ public class Library {
                     "uy-one-get-one-free burrito!", 12000, R.drawable.chipotle));
             goals.add(new Challenge("Cheese!", "McDonald's", "Craving a cheeseburger?  Walk 8000 steps to " +
                     "get a free cheeseburger with any meal.", 8000, R.drawable.mcdonalds));
+            goals.add(new Challenge("Short Goal!", "McDonald's", "Craving a cheeseburger?  Walk 10 steps to " +
+                    "get 10 cents off", 10, R.drawable.mcdonalds));
         }
         return goals;
     }
@@ -36,6 +48,11 @@ public class Library {
                     "get a free cheeseburger with any meal.", 8000, R.drawable.mcdonalds));
         }
         return rewards;
+    }
+
+    public static void addReward(Challenge c) {
+        rewards = getRewards();
+        rewards.add(c);
     }
 
     public static void setTotalSteps(int i){
@@ -53,4 +70,8 @@ public class Library {
     public static int getCurrentSteps(){
         return currentSteps;
     }
+
+    public static void setnRewardsEarned(int i){ nRewardsEarned = i; }
+
+    public static int getnRewardsEarned() { return nRewardsEarned; }
 }
