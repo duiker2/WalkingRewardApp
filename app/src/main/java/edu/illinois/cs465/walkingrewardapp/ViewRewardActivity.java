@@ -1,6 +1,7 @@
 package edu.illinois.cs465.walkingrewardapp;
 
 import android.content.Intent;
+import android.icu.text.DateFormat;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -43,10 +44,16 @@ public class ViewRewardActivity extends AppCompatActivity {
 
         TextView title = (TextView) header.findViewById(R.id.view_goal_restaurant);
         title.setText(reward.getRestaurant());
+
         TextView description = (TextView) header.findViewById(R.id.view_goal_description);
         description.setText(reward.getDescription());
+
         ImageView icon = (ImageView) header.findViewById(R.id.restaurant_icon);
         icon.setImageResource(reward.getImage());
+
+        TextView completedDate = (TextView) findViewById(R.id.completed_date);
+        completedDate.setText("Completed on " + reward.getCompletedTimeString(DateFormat.FULL));
+
 
     }
 }

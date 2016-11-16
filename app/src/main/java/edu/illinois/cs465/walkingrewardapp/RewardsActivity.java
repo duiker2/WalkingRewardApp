@@ -34,7 +34,7 @@ public class RewardsActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
 
-        initGoals();
+        rewards = Library.getRewards();
 
         CustomList adapter = new CustomList(this, rewards);
         list = (ListView)findViewById(R.id.reward_list);
@@ -49,10 +49,6 @@ public class RewardsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    private void initGoals() {
-        rewards = Library.getGoals();
     }
 
     //code is from https://developer.android.com/training/implementing-navigation/ancestral.html
