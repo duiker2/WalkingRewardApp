@@ -143,10 +143,9 @@ public class WalkingActivity extends AppCompatActivity implements
                     LOCATION_PERMISSION_REQUEST_CODE);
         }
 
-        try {
-            goal = Library.getCurrentGoal();
-            //ViewGroup.LayoutParams params = getFragmentManager().findFragmentById(R.id.map).getView().getLayoutParams();
-            //params.height=100;
+        goal = Library.getCurrentGoal();
+
+        if(goal != null) {
             findViewById(R.id.menu).setVisibility(View.VISIBLE);
             TextView current_goal = (TextView) findViewById(R.id.goal);
             current_goal.setText("Current Goal: " + goal.getRestaurant());
@@ -155,8 +154,6 @@ public class WalkingActivity extends AppCompatActivity implements
             maxSteps = goal.getStepsRequired();
             TextView progress = (TextView) findViewById(R.id.progress);
             progress.setText(Integer.toString(Library.getCurrentSteps()) + "/" + Integer.toString(maxSteps) + " steps");
-        }
-            catch (Exception e) {
         }
 
         SetupSensor();
