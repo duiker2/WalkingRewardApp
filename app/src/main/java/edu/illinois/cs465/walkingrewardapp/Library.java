@@ -1,8 +1,9 @@
 package edu.illinois.cs465.walkingrewardapp;
 
-import android.content.Intent;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
 
@@ -30,11 +31,11 @@ public class Library {
         if(goals == null) {
             goals = new ArrayList<Challenge>();
             goals.add(new Challenge("Chipotle BOGO", "Chipotle", "Walk really far to earn your b" +
-                    "uy-one-get-one-free burrito!", 12000, R.drawable.chipotle));
+                    "uy-one-get-one-free burrito!", 12000, R.drawable.chipotle, null));
             goals.add(new Challenge("Cheese!", "McDonald's", "Craving a cheeseburger?  Walk 8000 steps to " +
-                    "get a free cheeseburger with any meal.", 8000, R.drawable.mcdonalds));
+                    "get a free cheeseburger with any meal.", 8000, R.drawable.mcdonalds, null));
             goals.add(new Challenge("Short Goal!", "McDonald's", "Craving a cheeseburger?  Walk 10 steps to " +
-                    "get 10 cents off", 10, R.drawable.mcdonalds));
+                    "get 10 cents off", 10, R.drawable.mcdonalds, null));
         }
         return goals;
     }
@@ -43,9 +44,9 @@ public class Library {
         if(rewards == null) {
             rewards = new ArrayList<Challenge>();
             rewards.add(new Challenge("Chipotle BOGO", "Chipotle", "Walk really far to earn your b" +
-                    "uy-one-get-one-free burrito!", 12000, R.drawable.chipotle));
+                    "uy-one-get-one-free burrito!", 12000, R.drawable.chipotle, null));
             rewards.add(new Challenge("Cheese!", "McDonald's", "Craving a cheeseburger?  Walk 8000 steps to " +
-                    "get a free cheeseburger with any meal.", 8000, R.drawable.mcdonalds));
+                    "get a free cheeseburger with any meal.", 8000, R.drawable.mcdonalds, null));
         }
         return rewards;
     }

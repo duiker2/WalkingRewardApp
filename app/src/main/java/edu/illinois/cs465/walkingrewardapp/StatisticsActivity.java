@@ -20,29 +20,25 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.robinhood.spark.SparkAdapter;
-import com.robinhood.spark.SparkView;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.text.NumberFormat;
+import java.util.Random;
 
 /**
  * Created by mengxiongliu on 05/11/2016.
  */
 
 public class StatisticsActivity extends AppCompatActivity implements View.OnClickListener {
-    public int totalSteps = 0;
-    public int totalCouponsEarned = 1;
-    public int totalCouponsSpent = 0;
-    public double totalSaved = 0;
 
     private Button chooseDateButton;
     private DatePickerFragment dialogFragment;
     private TableLayout statisticsTable;
 
     private HashMap<String, String> staticStatistics = new HashMap<>();
-    private SparkView sparkView;
 
     @Override
     protected void onCreate(Bundle SavedInstanceState){
@@ -60,56 +56,28 @@ public class StatisticsActivity extends AppCompatActivity implements View.OnClic
 
         statisticsTable = (TableLayout) findViewById(R.id.statistics_table);
         initStatistics();
-
-        sparkView = (SparkView) findViewById(R.id.spark_view);
-        double[] data = {1.0, 2.0, 10.0};
-        sparkView.setAdapter(new CustomSparkAdapter(data));
-    }
-
-    private class CustomSparkAdapter extends SparkAdapter {
-        private double[] data;
-
-        public CustomSparkAdapter(double[] data) {
-            this.data = data;
-        }
-
-        @Override
-        public int getCount() {
-            return data.length;
-        }
-
-        @Override
-        public Object getItem(int index) {
-            return data[index];
-        }
-
-        @Override
-        public float getY(int index) {
-            return (float) data[index];
-        }
+        initGraph();
 
     }
+
+    private void initGraph() {
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 2),
+                new DataPoint(4, 6)
+        });
+        graph.addSeries(series);
+    }
+
 
     private void initStatistics() {
-        staticStatistics.put("Traveled", Integer.toString(Library.getTotalSteps()) + " steps");
-        totalCouponsEarned = Library.getnRewardsEarned();
-        String temp = Integer.toString(totalCouponsEarned) + " coupon";
-        if (totalCouponsSpent != 1) temp += "s";
-        staticStatistics.put("Earned", temp);
-        temp = Integer.toString(totalCouponsSpent) + " coupon";
-        if (totalCouponsSpent != 1) temp += "s";
-        staticStatistics.put("Used", temp);
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
-        staticStatistics.put("Saved", formatter.format(totalSaved));
-
-        TextView traveled = (TextView) findViewById(R.id.traveled);
-        traveled.setText(staticStatistics.get("Traveled"));
-        TextView earned = (TextView) findViewById(R.id.earned);
-        earned.setText(staticStatistics.get("Earned"));
-        TextView used = (TextView) findViewById(R.id.used);
-        used.setText(staticStatistics.get("Used"));
-        TextView saved = (TextView) findViewById(R.id.saved);
-        saved.setText(staticStatistics.get("Saved"));
+        staticStatistics.put("Traveled", "4.5 miles");
+        staticStatistics.put("Earned", "2 coupons");
+        staticStatistics.put("Used", "1 coupon");
+        staticStatistics.put("Saved", "$2.24");
     }
 
 

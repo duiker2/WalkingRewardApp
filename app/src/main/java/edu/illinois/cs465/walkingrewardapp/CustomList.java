@@ -13,7 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
 
@@ -40,7 +43,14 @@ public class CustomList extends ArrayAdapter<Challenge>{
         txtReward.setText(challenges.get(position).getDescription());
 
         TextView txtGoal = (TextView) rowView.findViewById(R.id.goals);
-        txtGoal.setText(Integer.toString(challenges.get(position).getStepsRequired()) + " steps");
+        if(challenges.get(position).getTimestampCompleted() == null) {
+            //the challenge is not completed.  show the number of steps required
+            txtGoal.setText(Integer.toString(challenges.get(position).getStepsRequired()) + " steps");
+        }
+        else {
+            //the challenge is completed.  show the date/time it was completed
+            txtGoal.setText("Completed " + challenges.get(position).getCompletedTimeString(DateFormat.SHORT));
+        }
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.restaurant_icon);
         imageView.setImageResource(challenges.get(position).getImage());
