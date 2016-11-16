@@ -147,7 +147,7 @@ public class WalkingActivity extends AppCompatActivity implements
 
         // initiate progress
         simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
-        setProgressValue(1);
+        setProgressValue(0);
     }
 
     private void setProgressValue(final int progress) {
