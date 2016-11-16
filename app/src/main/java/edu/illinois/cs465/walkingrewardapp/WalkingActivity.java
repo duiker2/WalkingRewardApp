@@ -22,6 +22,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -35,6 +37,8 @@ import static edu.illinois.cs465.walkingrewardapp.R.id.goal;
 import static java.lang.Double.valueOf;
 
 import android.widget.ProgressBar;
+
+import java.util.Date;
 
 import edu.illinois.cs465.walkingrewardapp.Maps.TouchableWrapper;
 
@@ -87,12 +91,19 @@ public class WalkingActivity extends AppCompatActivity implements
         try {
             goal = Library.getCurrentGoal();
             TextView current_goal = (TextView) findViewById(R.id.goal);
-            current_goal.setText("Current Goal: " + goal.getRestaurant());
             TextView description = (TextView) findViewById(R.id.description);
-            description.setText(goal.getDescription());
-            maxSteps = goal.getStepsRequired();
-            TextView progress = (TextView) findViewById(R.id.progress);
-            progress.setText(Integer.toString(Library.getCurrentSteps()) + "/" + Integer.toString(maxSteps) + " steps");
+            if(goal != null) {
+                current_goal.setText("Current Goal: " + goal.getRestaurant());
+                description.setText(goal.getDescription());
+                maxSteps = goal.getStepsRequired();
+                TextView progress = (TextView) findViewById(R.id.progress);
+                progress.setText(Integer.toString(Library.getCurrentSteps()) + "/" + Integer.toString(maxSteps) + " steps");
+            }
+            else
+            {
+                current_goal.setText("Current Goal: None" );
+                description.setText("");
+            }
         }
         catch (Exception e) {
         }
@@ -112,6 +123,7 @@ public class WalkingActivity extends AppCompatActivity implements
         super.onStop();
         //mSensorManager.unregisterListener(this, mStepCounterSensor);
         //mSensorManager.unregisterListener(this, mStepDetectorSensor);
+        //TODO: Save current challenge and current steps
     }
 
     @Override
@@ -132,8 +144,10 @@ public class WalkingActivity extends AppCompatActivity implements
         }
 
         try {
-            Library.setCurrentGoal((Challenge) getIntent().getExtras().getSerializable("goal_object"));
             goal = Library.getCurrentGoal();
+            //ViewGroup.LayoutParams params = getFragmentManager().findFragmentById(R.id.map).getView().getLayoutParams();
+            //params.height=100;
+            findViewById(R.id.menu).setVisibility(View.VISIBLE);
             TextView current_goal = (TextView) findViewById(R.id.goal);
             current_goal.setText("Current Goal: " + goal.getRestaurant());
             TextView description = (TextView) findViewById(R.id.description);
@@ -149,7 +163,7 @@ public class WalkingActivity extends AppCompatActivity implements
 
         // initiate progress
         simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
-        setProgressValue(1);
+        setProgressValue(0);
     }
 
     private void setProgressValue(final int progress) {
@@ -327,25 +341,28 @@ public class WalkingActivity extends AppCompatActivity implements
         Sensor sensor = e.sensor;
         if (sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             float[] values = e.values;
-
-            if (values.length > 0) {
+            goal = Library.getCurrentGoal();
+            if (values.length > 0 && goal != null) {
                 value = (int) values[0];
                 Library.setTotalSteps(value);
                 Library.setCurrentSteps(Library.getCurrentSteps()+1);
-                goal = Library.getCurrentGoal();
-                if(goal != null && Library.getCurrentSteps() >= goal.getStepsRequired())
+
+                if( Library.getCurrentSteps() >= goal.getStepsRequired())
                 {
                     //reset progress
                     Library.setCurrentSteps(0);
+                    goal.setTimeCompleted(new Date());
                     Library.addReward(goal);
                     Library.setnRewardsEarned(Library.getnRewardsEarned()+1);
+
                     //remove goal
-                    Library.setCurrentGoal(null);
-                    goal = Library.getCurrentGoal();
                     TextView current_goal = (TextView) findViewById(R.id.goal);
                     current_goal.setText("Current Goal: None");
                     TextView description = (TextView) findViewById(R.id.description);
                     description.setText("");
+                    Library.setCurrentGoal(null);
+                    goal = null;
+
                     //notify
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage("You have earned a Reward!")
@@ -363,6 +380,12 @@ public class WalkingActivity extends AppCompatActivity implements
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
+            }
+            if(goal == null){
+                TextView current_goal = (TextView) findViewById(R.id.goal);
+                current_goal.setText("Current Goal: None");
+                TextView description = (TextView) findViewById(R.id.description);
+                description.setText("");
             }
 
             int steps = Library.getCurrentSteps();

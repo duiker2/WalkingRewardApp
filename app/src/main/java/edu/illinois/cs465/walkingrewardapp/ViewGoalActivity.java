@@ -62,6 +62,7 @@ public class ViewGoalActivity extends AppCompatActivity implements View.OnClickL
             intent.putExtra("goal_object", goal);
             intent.putExtra("start_message", "Start your goal now");
             startActivity(intent);
+            Library.setCurrentGoal(goal);
         }
     }
 }
