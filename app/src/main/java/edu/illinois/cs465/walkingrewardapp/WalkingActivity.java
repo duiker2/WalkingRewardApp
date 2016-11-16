@@ -112,6 +112,7 @@ public class WalkingActivity extends AppCompatActivity implements
         super.onStop();
         //mSensorManager.unregisterListener(this, mStepCounterSensor);
         //mSensorManager.unregisterListener(this, mStepDetectorSensor);
+        //TODO: Save current challenge and current steps
     }
 
     @Override
