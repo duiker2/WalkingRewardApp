@@ -3,15 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:background="@color/colorTextOverBackground"
     >
 
     <ImageView
-            android:id="@+id/restaurant_icon"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:contentDescription="Restaurant Icon"
-            />
+        android:id="@+id/restaurant_icon"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:contentDescription="@string/restaurant_icon_description"
+        />
 
     <!-- code from https://www.learn2crack.com/2013/10/android-custom-listview-images-text-example.html -->
     <LinearLayout
@@ -34,6 +36,7 @@
             android:id="@+id/rewards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="2"
             android:textSize="12sp"
             />
 

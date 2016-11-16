@@ -1,34 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/view_reward_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Coupon Title"
-        android:textSize="18sp"
-        />
-
-    <TextView
-        android:id="@+id/view_reward_description"
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Coupon description goes here, and I want to make it long but not too long"
-        android:layout_weight="1"
-        android:layout_margin="12dp"
+        android:src="@drawable/walk_background_washout"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/background_image_description"
         />
 
-    <Button
-        android:id="@+id/view_reward_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <include
+            layout="@layout/view_challenge_heading"
+            android:id="@+id/reward_challenge_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            />
+
+        <TextView
+            android:id="@+id/scan_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Congratulations! Scan to redeem"
+            android:textSize="20sp"
+            android:layout_below="@+id/reward_challenge_heading"
+            />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/qr"
+            android:layout_below="@+id/scan_message"
+            android:layout_alignParentBottom="true"
+            android:padding="25dp"
+            />
+    </RelativeLayout>
+</FrameLayout>

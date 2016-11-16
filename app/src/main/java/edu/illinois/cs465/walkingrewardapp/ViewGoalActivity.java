@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
@@ -43,8 +44,15 @@ public class ViewGoalActivity extends AppCompatActivity implements View.OnClickL
     private void setTextView() {
         TextView title = (TextView) findViewById(R.id.view_goal_restaurant);
         title.setText(goal.getRestaurant());
+
         TextView description = (TextView) findViewById(R.id.view_goal_description);
         description.setText(goal.getDescription());
+
+        TextView steps = (TextView) findViewById(R.id.view_goal_steps);
+        steps.setText(Integer.toString(goal.getStepsRequired()) + " steps");
+
+        ImageView imageView = (ImageView) findViewById(R.id.restaurant_icon);
+        imageView.setImageResource(goal.getImage());
     }
 
     @Override
