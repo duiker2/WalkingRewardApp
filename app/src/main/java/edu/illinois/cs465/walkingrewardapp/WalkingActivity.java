@@ -36,6 +36,8 @@ import static java.lang.Double.valueOf;
 
 import android.widget.ProgressBar;
 
+import java.util.Date;
+
 import edu.illinois.cs465.walkingrewardapp.Maps.TouchableWrapper;
 
 import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
@@ -87,12 +89,19 @@ public class WalkingActivity extends AppCompatActivity implements
         try {
             goal = Library.getCurrentGoal();
             TextView current_goal = (TextView) findViewById(R.id.goal);
-            current_goal.setText("Current Goal: " + goal.getRestaurant());
             TextView description = (TextView) findViewById(R.id.description);
-            description.setText(goal.getDescription());
-            maxSteps = goal.getStepsRequired();
-            TextView progress = (TextView) findViewById(R.id.progress);
-            progress.setText(Integer.toString(Library.getCurrentSteps()) + "/" + Integer.toString(maxSteps) + " steps");
+            if(goal != null) {
+                current_goal.setText("Current Goal: " + goal.getRestaurant());
+                description.setText(goal.getDescription());
+                maxSteps = goal.getStepsRequired();
+                TextView progress = (TextView) findViewById(R.id.progress);
+                progress.setText(Integer.toString(Library.getCurrentSteps()) + "/" + Integer.toString(maxSteps) + " steps");
+            }
+            else
+            {
+                current_goal.setText("Current Goal: None" );
+                description.setText("");
+            }
         }
         catch (Exception e) {
         }
@@ -133,7 +142,6 @@ public class WalkingActivity extends AppCompatActivity implements
         }
 
         try {
-            Library.setCurrentGoal((Challenge) getIntent().getExtras().getSerializable("goal_object"));
             goal = Library.getCurrentGoal();
             TextView current_goal = (TextView) findViewById(R.id.goal);
             current_goal.setText("Current Goal: " + goal.getRestaurant());
@@ -335,25 +343,28 @@ public class WalkingActivity extends AppCompatActivity implements
         Sensor sensor = e.sensor;
         if (sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             float[] values = e.values;
-
-            if (values.length > 0) {
+            goal = Library.getCurrentGoal();
+            if (values.length > 0 && goal != null) {
                 value = (int) values[0];
                 Library.setTotalSteps(value);
                 Library.setCurrentSteps(Library.getCurrentSteps()+1);
-                goal = Library.getCurrentGoal();
-                if(goal != null && Library.getCurrentSteps() >= goal.getStepsRequired())
+
+                if( Library.getCurrentSteps() >= goal.getStepsRequired())
                 {
                     //reset progress
                     Library.setCurrentSteps(0);
+                    goal.setTimeCompleted(new Date());
                     Library.addReward(goal);
                     Library.setnRewardsEarned(Library.getnRewardsEarned()+1);
+
                     //remove goal
-                    Library.setCurrentGoal(null);
-                    goal = Library.getCurrentGoal();
                     TextView current_goal = (TextView) findViewById(R.id.goal);
                     current_goal.setText("Current Goal: None");
                     TextView description = (TextView) findViewById(R.id.description);
                     description.setText("");
+                    Library.setCurrentGoal(null);
+                    goal = null;
+
                     //notify
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage("You have earned a Reward!")
@@ -371,6 +382,12 @@ public class WalkingActivity extends AppCompatActivity implements
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
+            }
+            if(goal == null){
+                TextView current_goal = (TextView) findViewById(R.id.goal);
+                current_goal.setText("Current Goal: None");
+                TextView description = (TextView) findViewById(R.id.description);
+                description.setText("");
             }
 
             int steps = Library.getCurrentSteps();
