@@ -18,7 +18,7 @@
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="365dp"
+            android:layout_height="380dp"
             tools:context="edu.illinois.cs465.walkingrewardapp.WalkingActivity"
             class="edu.illinois.cs465.walkingrewardapp.Maps.MySupportMapFragment"/>
 
@@ -64,8 +64,8 @@
             android:max="100"
             android:progress="0"
             android:progressTint="#1f1"
-            android:progressBackgroundTint="#e2ec5b"
-            android:startColor="#e2ec5b"
+            android:progressBackgroundTint="#e0ed1e"
+            android:startColor="#e0ed1e"
             />
 
     </RelativeLayout>
