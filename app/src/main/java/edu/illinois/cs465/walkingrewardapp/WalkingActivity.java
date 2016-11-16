@@ -149,26 +149,12 @@ public class WalkingActivity extends AppCompatActivity implements
 
         // initiate progress
         simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
-        setProgressValue(progress);
+        setProgressValue(1);
     }
 
     private void setProgressValue(final int progress) {
-
         // set the progress
         simpleProgressBar.setProgress(progress);
-        // thread is used to change the progress value
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setProgressValue(progress + 10);
-            }
-        });
-        thread.start();//*/
     }
 
     /**
@@ -348,7 +334,6 @@ public class WalkingActivity extends AppCompatActivity implements
         Sensor sensor = e.sensor;
         if (sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             float[] values = e.values;
-            TextView textView = (TextView) findViewById(R.id.stepCount);
 
             if (values.length > 0) {
                 value = (int) values[0];
@@ -386,10 +371,13 @@ public class WalkingActivity extends AppCompatActivity implements
                 }
             }
 
-            textView.setText("Step Counter Detected : " + value);
-
+            int steps = Library.getCurrentSteps();
             TextView progress = (TextView) findViewById(R.id.progress);
-            progress.setText(Integer.toString(Library.getCurrentSteps()) + "/" + Integer.toString(maxSteps) + " steps");
+            progress.setText(Integer.toString(steps) + "/" + Integer.toString(maxSteps) + " steps");
+
+            double progress_bar = (1.0 * steps / maxSteps) * 100.0;
+            simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
+            setProgressValue((int)progress_bar);
         }
     }
 
