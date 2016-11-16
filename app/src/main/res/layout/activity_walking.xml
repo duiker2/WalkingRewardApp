@@ -19,7 +19,8 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            tools:context="edu.illinois.cs465.walkingrewardapp.WalkingActivity" />
+            tools:context="edu.illinois.cs465.walkingrewardapp.WalkingActivity"
+            class="edu.illinois.cs465.walkingrewardapp.Maps.MySupportMapFragment"/>
 
         <TextView
             android:id="@+id/goal"
@@ -49,6 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/progress"/>
 
+
+
         <ProgressBar
             android:id="@+id/simpleProgressBar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -61,6 +64,32 @@
             android:max="100"
             android:progress="0"
             android:progressDrawable="@drawable/custom_progress" />
+
+        <TextView
+            android:id="@+id/restaurant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/simpleProgressBar"
+            android:layout_centerHorizontal="true"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/restaurant"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/step"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/description"
+            android:layout_centerHorizontal="true"
+            android:text="" />
+
 
     </RelativeLayout>
 
