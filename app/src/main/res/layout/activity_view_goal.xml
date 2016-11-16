@@ -1,32 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/view_goal_title"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="24sp"
+        android:layout_height="match_parent"
+        android:src="@drawable/walk_background"
+        android:scaleType = "centerCrop"
+        android:alpha="0.15"
+        android:contentDescription="Background Image"
         />
 
-    <TextView
-        android:id="@+id/view_goal_description"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="12dp"
-        />
+        android:layout_height="match_parent"
+        android:padding="25dp"
+        >
 
-    <Button
-        android:id="@+id/view_goal_select"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            >
 
-</LinearLayout>
+            <ImageView
+                android:id="@+id/restaurant_icon"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:contentDescription="Restaurant Icon"
+                android:src="@drawable/chipotle"
+                />
+
+            <TextView
+                android:id="@+id/view_goal_restaurant"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="24sp"
+                android:maxLines="2"
+                android:gravity="start|center_vertical"
+                android:layout_margin="10dp"
+                android:layout_toEndOf="@+id/restaurant_icon"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/view_goal_description"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="12dp"
+            />
+
+        <!-- code from https://guides.codepath.com/android/floating-action-buttons -->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/view_goal_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/walk"
+            android:clickable="true"
+            app:fabSize="normal"
+            app:backgroundTint="@color/colorPrimary"
+            />
+    </LinearLayout>
+</FrameLayout>

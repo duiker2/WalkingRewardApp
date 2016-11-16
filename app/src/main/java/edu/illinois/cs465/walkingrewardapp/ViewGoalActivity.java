@@ -7,6 +7,7 @@ package edu.illinois.cs465.walkingrewardapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
 import android.view.View;
@@ -16,30 +17,32 @@ import android.widget.TextView;
 import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
 
 public class ViewGoalActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button selectButton;
     private Challenge goal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_goal);
+
+        goal = (Challenge) getIntent().getExtras().getSerializable("goal");
+
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(goal.getTitle());
         }
         catch(NullPointerException e) {
             e.printStackTrace();
         }
 
-        goal = (Challenge) getIntent().getExtras().getSerializable("goal");
         setTextView();
 
-        selectButton = (Button) findViewById(R.id.view_goal_select);
+        FloatingActionButton selectButton = (FloatingActionButton) findViewById(R.id.view_goal_select);
         selectButton.setOnClickListener(this);
     }
 
     private void setTextView() {
-        TextView title = (TextView) findViewById(R.id.view_goal_title);
-        title.setText(goal.getTitle());
+        TextView title = (TextView) findViewById(R.id.view_goal_restaurant);
+        title.setText(goal.getRestaurant());
         TextView description = (TextView) findViewById(R.id.view_goal_description);
         description.setText(goal.getDescription());
     }
