@@ -49,7 +49,7 @@ public class ViewGoalActivity extends AppCompatActivity implements View.OnClickL
         description.setText(goal.getDescription());
 
         TextView steps = (TextView) findViewById(R.id.view_goal_steps);
-        steps.setText(Integer.toString(goal.getStepsRequired()) + " steps");
+        steps.setText(goal.getStringTimeLimitMinutes() + ", " + Integer.toString(goal.getStepsRequired()) + " steps");
 
         ImageView imageView = (ImageView) findViewById(R.id.restaurant_icon);
         imageView.setImageResource(goal.getImage());
