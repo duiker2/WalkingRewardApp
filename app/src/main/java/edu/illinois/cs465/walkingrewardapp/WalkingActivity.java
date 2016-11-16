@@ -2,6 +2,7 @@ package edu.illinois.cs465.walkingrewardapp;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
@@ -16,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -147,26 +149,12 @@ public class WalkingActivity extends AppCompatActivity implements
 
         // initiate progress
         simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
-        setProgressValue(progress);
+        setProgressValue(1);
     }
 
     private void setProgressValue(final int progress) {
-
         // set the progress
         simpleProgressBar.setProgress(progress);
-        // thread is used to change the progress value
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setProgressValue(progress + 10);
-            }
-        });
-        thread.start();//*/
     }
 
     /**
@@ -346,7 +334,6 @@ public class WalkingActivity extends AppCompatActivity implements
         Sensor sensor = e.sensor;
         if (sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             float[] values = e.values;
-            TextView textView = (TextView) findViewById(R.id.stepCount);
 
             if (values.length > 0) {
                 value = (int) values[0];
@@ -355,17 +342,43 @@ public class WalkingActivity extends AppCompatActivity implements
                 goal = Library.getCurrentGoal();
                 if(goal != null && Library.getCurrentSteps() >= goal.getStepsRequired())
                 {
+                    //reset progress
                     Library.setCurrentSteps(0);
                     Library.addReward(goal);
                     Library.setnRewardsEarned(Library.getnRewardsEarned()+1);
-                    //TODO: notify and remove goal
+                    //remove goal
+                    Library.setCurrentGoal(null);
+                    goal = Library.getCurrentGoal();
+                    TextView current_goal = (TextView) findViewById(R.id.goal);
+                    current_goal.setText("Current Goal: None");
+                    TextView description = (TextView) findViewById(R.id.description);
+                    description.setText("");
+                    //notify
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("You have earned a Reward!")
+                            .setTitle("Congratulations!");
+                    builder.setPositiveButton("View My Rewards", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            openActivity(RewardsActivity.class);
+                        }
+                    });
+                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
             }
 
-            textView.setText("Step Counter Detected : " + value);
-
+            int steps = Library.getCurrentSteps();
             TextView progress = (TextView) findViewById(R.id.progress);
-            progress.setText(Integer.toString(Library.getCurrentSteps()) + "/" + Integer.toString(maxSteps) + " steps");
+            progress.setText(Integer.toString(steps) + "/" + Integer.toString(maxSteps) + " steps");
+
+            double progress_bar = (1.0 * steps / maxSteps) * 100.0;
+            simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
+            setProgressValue((int)progress_bar);
         }
     }
 
