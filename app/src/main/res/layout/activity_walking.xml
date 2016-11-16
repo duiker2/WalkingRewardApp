@@ -30,18 +30,26 @@
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:layout_centerHorizontal="true"
-            android:text="Current Goal"
             android:textStyle="normal|bold"/>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/goal"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="" />
 
         <TextView
             android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/goal"
+            android:layout_below="@+id/description"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:layout_centerHorizontal="true"
-            android:text="700/7000steps"
             android:textStyle="normal|bold"/>
 
         <TextView
@@ -49,8 +57,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/progress"/>
-
-
 
         <ProgressBar
             android:id="@+id/simpleProgressBar"
@@ -64,32 +70,6 @@
             android:max="100"
             android:progress="0"
             android:progressDrawable="@drawable/custom_progress" />
-
-        <TextView
-            android:id="@+id/restaurant"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/simpleProgressBar"
-            android:layout_centerHorizontal="true"
-            android:text="" />
-
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/restaurant"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="" />
-
-        <TextView
-            android:id="@+id/step"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/description"
-            android:layout_centerHorizontal="true"
-            android:text="" />
-
 
     </RelativeLayout>
 
