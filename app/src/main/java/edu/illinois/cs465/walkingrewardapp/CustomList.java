@@ -17,14 +17,15 @@ import java.text.DateFormat;
 import java.util.List;
 
 import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
+import edu.illinois.cs465.walkingrewardapp.Data.ChallengeList;
 
 public class CustomList extends ArrayAdapter<Challenge>{
 
     private final Activity context;
-    private final List<Challenge> challenges;
+    private final ChallengeList challenges;
 
-    public CustomList(Activity context, List<Challenge> challenges) {
-        super(context, R.layout.list_item_image_text, challenges);
+    public CustomList(Activity context, ChallengeList challenges) {
+        super(context, R.layout.list_item_image_text, challenges.getChallengeList());
         this.context = context;
         this.challenges = challenges;
     }

@@ -280,14 +280,7 @@ public class WalkingActivity extends AppCompatActivity implements
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
 
-//        MenuItem item = menu.findItem(R.id.spinner);
-//        Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
-//
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                R.array.spinner_items, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//        spinner.setAdapter(adapter);
+        Library.initializeData(getApplicationContext());
 
         return true;
     }

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
+import edu.illinois.cs465.walkingrewardapp.Data.ChallengeList;
 
 /**
  * Created by mengxiongliu on 08/11/2016.
@@ -21,7 +22,7 @@ import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
 
 public class RewardsActivity extends AppCompatActivity {
     private ListView list;
-    private List<Challenge> rewards;
+    private ChallengeList rewards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

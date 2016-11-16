@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by mengxiongliu on 08/11/2016.
@@ -89,6 +90,12 @@ public class Challenge implements Serializable {
         if(totalMinutes == null)
             return null;
         return minutesToString(totalMinutes);
+    }
+
+    public void markAsComplete() throws ChallengePassedException {
+        if(minutesRemaining() < 0)
+            throw new ChallengePassedException();
+        this.timeCompleted = new Date();
     }
 
     @NonNull

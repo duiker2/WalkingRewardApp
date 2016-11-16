@@ -20,6 +20,7 @@ import java.util.List;
 import java.io.Serializable;
 
 import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
+import edu.illinois.cs465.walkingrewardapp.Data.ChallengeList;
 
 public class ChooseGoalActivity extends AppCompatActivity {
     protected void openActivity(Class<?> activity, Serializable parameter) {
@@ -28,7 +29,7 @@ public class ChooseGoalActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private List<Challenge> goals;
+    private ChallengeList goals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
