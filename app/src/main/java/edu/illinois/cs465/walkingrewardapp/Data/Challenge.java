@@ -83,7 +83,7 @@ public class Challenge implements Serializable {
 
     public Integer minutesRemaining() {
         if(timeStarted == null)
-            return null;
+            return -1;
         long diffInMs = new Date().getTime() - timeStarted.getTime();
         return (int)TimeUnit.MINUTES.convert(diffInMs, TimeUnit.MILLISECONDS);
     }

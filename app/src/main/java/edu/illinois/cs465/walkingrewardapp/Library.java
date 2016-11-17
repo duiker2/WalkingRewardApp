@@ -55,6 +55,7 @@ public class Library {
     }
 
     public static void setCurrentGoal(Challenge c){
+        if(c != null) c.startTimer();
         currentGoal = c;
     }
 

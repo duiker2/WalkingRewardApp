@@ -359,23 +359,6 @@ public class WalkingActivity extends AppCompatActivity implements
                     description.setText("");
                     Library.setCurrentGoal(null);
                     goal = null;
-
-                    //notify
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage("You have earned a Reward!")
-                            .setTitle("Congratulations!");
-                    builder.setPositiveButton("View My Rewards", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            openActivity(RewardsActivity.class);
-                        }
-                    });
-                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
                 }
             }
             if(goal == null){
