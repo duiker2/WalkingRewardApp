@@ -37,6 +37,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import static edu.illinois.cs465.walkingrewardapp.R.id.book_now;
 import static edu.illinois.cs465.walkingrewardapp.R.id.goal;
 import static java.lang.Double.min;
 import static java.lang.Double.valueOf;
@@ -134,7 +135,14 @@ public class WalkingActivity extends AppCompatActivity implements
             Count.start();
         }
 
-        if(goal == null && Library.ShowTutorial())
+        boolean show_dialog = true;
+        try {
+            show_dialog = getIntent().getExtras().getBoolean("show_dialog");
+        }
+        catch (Exception e) {
+        }
+
+        if(goal == null && Library.ShowTutorial() && show_dialog)
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             LayoutInflater adbInflater = LayoutInflater.from(this);
