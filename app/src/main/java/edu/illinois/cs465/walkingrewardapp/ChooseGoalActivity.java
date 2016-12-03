@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -59,6 +61,22 @@ public class ChooseGoalActivity extends AppCompatActivity {
         });
     }
 
+    protected void openActivity(Class<?> activity) {
+        Intent intent = new Intent(this, activity);
+        startActivity(intent);
+    }
+
+    //code from http://www.vogella.com/tutorials/AndroidActionBar/article.html
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        Library.initializeData(getApplicationContext());
+
+        return true;
+    }
+
     //code is from https://developer.android.com/training/implementing-navigation/ancestral.html
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -67,6 +85,18 @@ public class ChooseGoalActivity extends AppCompatActivity {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
+            case R.id.action_change_goal:
+                openActivity(ChooseGoalActivity.class);
+                break;
+            case R.id.action_my_rewards:
+                //Toast.makeText(getApplicationContext(), "Thanks for clicking the Rewards button!", Toast.LENGTH_SHORT).show();
+                openActivity(RewardsActivity.class);
+                break;
+            case R.id.action_view_statistics:
+                openActivity(StatisticsActivity.class);
+                break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

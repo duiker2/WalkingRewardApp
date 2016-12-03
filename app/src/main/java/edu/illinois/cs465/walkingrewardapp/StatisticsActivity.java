@@ -7,11 +7,14 @@ import android.app.DialogFragment;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +42,11 @@ public class StatisticsActivity extends AppCompatActivity implements View.OnClic
     private TableLayout statisticsTable;
 
     private HashMap<String, String> staticStatistics = new HashMap<>();
+
+    protected void openActivity(Class<?> activity) {
+        Intent intent = new Intent(this, activity);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle SavedInstanceState){
@@ -132,12 +140,35 @@ public class StatisticsActivity extends AppCompatActivity implements View.OnClic
         saved.setText(staticStatistics.get("Saved"));
     }
 
+    //code from http://www.vogella.com/tutorials/AndroidActionBar/article.html
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        Library.initializeData(getApplicationContext());
+
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
+            case R.id.action_change_goal:
+                openActivity(ChooseGoalActivity.class);
+                break;
+            case R.id.action_my_rewards:
+                //Toast.makeText(getApplicationContext(), "Thanks for clicking the Rewards button!", Toast.LENGTH_SHORT).show();
+                openActivity(RewardsActivity.class);
+                break;
+            case R.id.action_view_statistics:
+                openActivity(StatisticsActivity.class);
+                break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
