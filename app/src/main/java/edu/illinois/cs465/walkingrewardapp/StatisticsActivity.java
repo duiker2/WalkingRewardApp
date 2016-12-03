@@ -10,6 +10,7 @@ import java.util.Calendar;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +41,7 @@ import java.util.Random;
 
 public class StatisticsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button chooseDateButton;
+    private FloatingActionButton chooseDateButton;
     private DatePickerFragment dialogFragment;
     private TableLayout statisticsTable;
 
@@ -61,7 +63,7 @@ public class StatisticsActivity extends AppCompatActivity implements View.OnClic
             ex.printStackTrace();
         }
 
-        chooseDateButton = (Button) findViewById(R.id.choose_date_button);
+        chooseDateButton = (FloatingActionButton) findViewById(R.id.choose_date_button);
         chooseDateButton.setOnClickListener(this);
 
         statisticsTable = (TableLayout) findViewById(R.id.statistics_table);
