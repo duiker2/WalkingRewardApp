@@ -7,6 +7,7 @@ package edu.illinois.cs465.walkingrewardapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -59,6 +60,12 @@ public class ViewGoalActivity extends AppCompatActivity implements View.OnClickL
 
         ImageView imageView = (ImageView) findViewById(R.id.restaurant_icon);
         imageView.setImageResource(goal.getImage());
+
+        if(goal.equals(Library.getCurrentGoal())) {
+            FloatingActionButton stopButton = (FloatingActionButton) findViewById(R.id.view_goal_select);
+            stopButton.setImageResource(R.drawable.stop);
+            stopButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+        }
     }
 
     @Override
@@ -97,19 +104,42 @@ public class ViewGoalActivity extends AppCompatActivity implements View.OnClickL
         Library.setCurrentGoal(goal);
     }
 
+
+    private void abandonGoal() {
+        //give up
+        Library.setCurrentGoal(null);
+
+        //go back to the home page
+        startActivity(new Intent(getApplicationContext(), WalkingActivity.class));
+    }
+
     @Override
     public void onClick(View v){
         if (v.getId() == R.id.view_goal_select) {
             if(goal.equals(Library.getCurrentGoal())) {
-                Toast.makeText(getApplicationContext(), "You have already selected this goal!", Toast.LENGTH_SHORT).show();
+                //they want to give up.  quitter
+                new AlertDialog.Builder(this)
+                        .setIcon(R.drawable.walk)
+                        .setTitle("Abandon Goal?")
+                        .setMessage("Are you sure you want to abandon your current progress?")
+                        .setPositiveButton("Abandon Goal", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                abandonGoal();
+                            }
+
+                        })
+                        .setNegativeButton("Keep Going", null)
+                        .show();
             }
             else if(Library.getCurrentGoal() != null) {
-                //they are already in a challenge.  confirm that they want to give up.  quitter
+                //they are already in a challenge.  confirm that they want to give up.
                 new AlertDialog.Builder(this)
                         .setIcon(R.drawable.walk)
                         .setTitle("Abandon Goal?")
                         .setMessage("Are you sure you want to abandon your current progress and start a new goal?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                        .setPositiveButton("Start New", new DialogInterface.OnClickListener()
                         {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -117,7 +147,7 @@ public class ViewGoalActivity extends AppCompatActivity implements View.OnClickL
                             }
 
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton("Keep Going", null)
                         .show();
             }
             else

@@ -212,6 +212,7 @@ public class WalkingActivity extends AppCompatActivity implements
             maxSteps = goal.getStepsRequired();
             TextView progress = (TextView) findViewById(R.id.progress);
             progress.setText(Integer.toString(Library.getCurrentSteps()) + "/" + Integer.toString(maxSteps) + " steps");
+            this.setTitle("Start Walking!");
         }
 
         SetupSensor();
