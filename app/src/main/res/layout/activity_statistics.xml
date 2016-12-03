@@ -36,7 +36,7 @@
 
         <TableRow>
             <TextView
-                android:text="Earned"
+                android:text="Rewards Earned"
                 android:padding="3dip" />
             <TextView
                 android:id="@+id/earned"
@@ -47,7 +47,7 @@
 
         <TableRow>
             <TextView
-                android:text="Used"
+                android:text="Rewards Used"
                 android:padding="3dip" />
             <TextView
                 android:id="@+id/used"
