@@ -58,7 +58,7 @@ public class CustomList extends ArrayAdapter<Challenge>{
         imageView.setImageResource(thisChallenge.getImage());
 
         if(thisChallenge.equals(Library.getCurrentGoal()))
-            rowView.setBackgroundColor(Color.argb(30, 128, 128, 128));
+            rowView.setBackgroundColor(Color.argb(30, 64, 64, 255));
 
         return rowView;
     }
