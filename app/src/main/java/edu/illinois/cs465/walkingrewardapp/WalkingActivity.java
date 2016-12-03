@@ -14,6 +14,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
@@ -37,10 +38,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import static edu.illinois.cs465.walkingrewardapp.R.id.goal;
+import static java.lang.Double.min;
 import static java.lang.Double.valueOf;
 
 import android.widget.ProgressBar;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import edu.illinois.cs465.walkingrewardapp.Maps.TouchableWrapper;
@@ -109,6 +113,25 @@ public class WalkingActivity extends AppCompatActivity implements
             }
         }
         catch (Exception e) {
+        }
+
+        final TextView textic = (TextView) findViewById(R.id.timeRemaining);
+
+        if(goal != null) {
+            CountDownTimer Count = new CountDownTimer(goal.timeRemainingMS(), 1000) {
+                public void onTick(long millisUntilFinished) {
+                    int seconds = (int) ((millisUntilFinished / 1000) % 60);
+                    int minutes = (int) (((millisUntilFinished / 1000) % 3600) / 60);
+                    int hours = (int) ((millisUntilFinished / 1000) / 3600);
+                    DecimalFormat df = new DecimalFormat("#00");
+                    textic.setText(df.format(hours) + ":" + df.format(minutes) + ":" + df.format(seconds));
+                }
+
+                public void onFinish() {
+                    textic.setText("Challenge Failed");
+                }
+            };
+            Count.start();
         }
 
         if(goal == null && Library.ShowTutorial())

@@ -6,6 +6,13 @@
     android:layout_height="wrap_content">
 
     <item
+        android:id="@+id/action_home"
+        android:orderInCategory="100"
+        android:layout_alignParentRight="true"
+        android:title="Home"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_change_goal"
         android:title="@string/change_goal"
         android:orderInCategory="100"
