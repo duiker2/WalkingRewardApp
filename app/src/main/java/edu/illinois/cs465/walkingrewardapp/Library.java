@@ -105,5 +105,5 @@ public class Library {
 
     public static void setnRewardsEarned(int i){ nRewardsEarned = i; }
 
-    public static int getnRewardsEarned() { return nRewardsEarned; }
+    public static int getnRewardsEarned() { return rewards.size(); }
 }
