@@ -225,7 +225,7 @@ public class WalkingActivity extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 if(Library.getCurrentGoal() != null) {
-                    //show the current goal
+                    //show the current goal 
                     Intent intent = new Intent(WalkingActivity.this, ViewGoalActivity.class);
                     intent.putExtra("goal", Library.getCurrentGoal());
                     startActivity(intent);
