@@ -79,9 +79,9 @@ public class RewardsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
+            case R.id.action_home:
+                openActivity(WalkingActivity.class);
+                break;
             case R.id.action_change_goal:
                 openActivity(ChooseGoalActivity.class);
                 break;

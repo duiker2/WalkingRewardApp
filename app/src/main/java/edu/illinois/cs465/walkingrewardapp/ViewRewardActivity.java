@@ -5,6 +5,9 @@ import android.icu.text.DateFormat;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,6 +40,34 @@ public class ViewRewardActivity extends AppCompatActivity {
 
         // replace text in text view with information in the reward object
         setTextView();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                startActivity(new Intent(getApplicationContext(), WalkingActivity.class));
+                break;
+            case R.id.action_change_goal:
+                startActivity(new Intent(getApplicationContext(), ChooseGoalActivity.class));
+                break;
+            case R.id.action_my_rewards:
+                startActivity(new Intent(getApplicationContext(), RewardsActivity.class));
+                break;
+            case R.id.action_view_statistics:
+                startActivity(new Intent(getApplicationContext(), StatisticsActivity.class));
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setTextView() {

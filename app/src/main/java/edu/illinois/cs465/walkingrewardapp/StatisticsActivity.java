@@ -154,9 +154,9 @@ public class StatisticsActivity extends AppCompatActivity implements View.OnClic
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
+            case R.id.action_home:
+                openActivity(WalkingActivity.class);
+                break;
             case R.id.action_change_goal:
                 openActivity(ChooseGoalActivity.class);
                 break;
