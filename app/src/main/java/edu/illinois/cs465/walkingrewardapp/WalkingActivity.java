@@ -27,6 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -220,6 +221,20 @@ public class WalkingActivity extends AppCompatActivity implements
         // initiate progress
         simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
         setProgressValue(0);
+
+        //add the on-click event to the goal information
+        findViewById(R.id.menu).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                if(Library.getCurrentGoal() != null) {
+                    //show the current goal
+                    Intent intent = new Intent(WalkingActivity.this, ViewGoalActivity.class);
+                    intent.putExtra("goal", Library.getCurrentGoal());
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     private void setProgressValue(final int progress) {

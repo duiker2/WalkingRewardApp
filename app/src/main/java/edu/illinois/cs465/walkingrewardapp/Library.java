@@ -30,16 +30,18 @@ public class Library {
 
         //initialize the list of goals
         goals = new ChallengeList("goals", appContext);
-        if(goals.size() == 0) {
+        //if(goals.size() == 0) {
             goals.add(new Challenge("Chipotle BOGO", "Chipotle", "Walk really far to earn your b" +
                     "uy-one-get-one-free burrito!", 12000, 24 * 60, R.drawable.chipotle, null));
             goals.add(new Challenge("Cheese!", "McDonald's", "Craving a cheeseburger?  Walk 8000 steps to " +
                     "get a free cheeseburger with any meal.", 8000, 24 * 60, R.drawable.mcdonalds, null));
             goals.add(new Challenge("Short Goal!", "McDonald's", "Craving a cheeseburger?  Walk 10 steps to " +
                     "get 10 cents off", 10, 2, R.drawable.mcdonalds, null));
-            goals.saveToFile();
-        }
-        goals.add(new Challenge("Extra Panera Challenge", "Panera", "This is another challenge from your favorite bakery!", 24000, 24 * 60 * 2, R.drawable.panera, null));
+            goals.add(new Challenge("Extra Panera Challenge", "Panera", "This is another challenge " +
+                    "from your favorite bakery!", 24000, 24 * 60 * 2, R.drawable.panera, null));
+        //}
+        goals.removeDuplicates();
+        goals.saveToFile();
 
         //initialize the rewards
         rewards = new ChallengeList("rewards", appContext);
@@ -58,6 +60,7 @@ public class Library {
         catch(ParseException|NullPointerException ex) {
             ex.printStackTrace();
         }
+        rewards.removeDuplicates();
         rewards.saveToFile();
     }
 

@@ -10,6 +10,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by computerpp on 11/16/2016.
@@ -71,5 +73,12 @@ public class ChallengeList implements Serializable {
 
     public void add(Challenge item) {
         challenges.add(item);
+    }
+
+    public void removeDuplicates() {
+        Set<Challenge> hs = new HashSet<>();
+        hs.addAll(challenges);
+        challenges.clear();
+        challenges.addAll(hs);
     }
 }

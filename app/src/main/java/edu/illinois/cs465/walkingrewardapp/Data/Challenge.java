@@ -150,4 +150,13 @@ public class Challenge implements Serializable {
 
         return true;
     }
+
+    @Override
+    public int hashCode() {
+        return this.title.hashCode() +
+                this.restaurant.hashCode() +
+                this.description.hashCode() +
+                this.stepsRequired +
+                this.timeLimitMinutes;
+    }
 }
