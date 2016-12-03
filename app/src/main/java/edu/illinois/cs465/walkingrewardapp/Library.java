@@ -25,6 +25,9 @@ public class Library {
     private static boolean showTutorial = true;
 
     public static void initializeData(Context appContext) {
+        if(goals != null)
+            return;
+
         //initialize the list of goals
         goals = new ChallengeList("goals", appContext);
         if(goals.size() == 0) {
@@ -43,12 +46,13 @@ public class Library {
         //TODO: we don't need to include this when launching
         //add a reward, if one's not there already
         try {
-            if(rewards.size() == 0)
+            if(rewards.size() == 0) {
                 nRewardsEarned += 1;
                 rewards.add(new Challenge("Free Sandwich", "Panera", "Want a free sandwich at your " +
                         "favorite coffee shop/bakery/sandwich shop?  Walk 15000 steps in one day " +
                         "and you'll earn it!", 15000, 24 * 60, R.drawable.panera,
                         new SimpleDateFormat("MM/dd/yy").parse("11/02/16")));
+            }
         }
         catch(ParseException|NullPointerException ex) {
             ex.printStackTrace();

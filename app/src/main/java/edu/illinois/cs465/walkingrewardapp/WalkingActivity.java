@@ -199,6 +199,8 @@ public class WalkingActivity extends AppCompatActivity implements
                     LOCATION_PERMISSION_REQUEST_CODE);
         }
 
+        Library.initializeData(getApplicationContext());
+
         goal = Library.getCurrentGoal();
 
         if(goal != null) {

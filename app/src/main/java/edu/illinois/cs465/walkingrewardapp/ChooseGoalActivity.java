@@ -73,7 +73,7 @@ public class ChooseGoalActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
 
-        Library.initializeData(getApplicationContext());
+        inflater.inflate(R.menu.menu_sort_goal, menu);
 
         return true;
     }
