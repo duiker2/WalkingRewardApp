@@ -7,11 +7,10 @@
 
     <item
         android:id="@+id/action_home"
-        android:icon="@drawable/home"
         android:orderInCategory="100"
         android:layout_alignParentRight="true"
         android:title="Home"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_change_goal"
