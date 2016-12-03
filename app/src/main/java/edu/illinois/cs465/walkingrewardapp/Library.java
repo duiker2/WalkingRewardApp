@@ -22,6 +22,7 @@ public class Library {
     private static ChallengeList goals = null;
     private static ChallengeList rewards = null;
     private static Challenge currentGoal = null;
+    private static boolean showTutorial = true;
 
     public static void initializeData(Context appContext) {
         //initialize the list of goals
@@ -106,4 +107,7 @@ public class Library {
     public static void setnRewardsEarned(int i){ nRewardsEarned = i; }
 
     public static int getnRewardsEarned() { return rewards.size(); }
+
+    public static void removeTutorial() {showTutorial = false;}
+    public static boolean ShowTutorial() {return showTutorial;}
 }
