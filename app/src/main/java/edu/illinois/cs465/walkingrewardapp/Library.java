@@ -39,6 +39,7 @@ public class Library {
                     "get 10 cents off", 10, 2, R.drawable.mcdonalds, null));
             goals.saveToFile();
         }
+        goals.add(new Challenge("Extra Panera Challenge", "Panera", "This is another challenge from your favorite bakery!", 24000, 24 * 60 * 2, R.drawable.panera, null));
 
         //initialize the rewards
         rewards = new ChallengeList("rewards", appContext);
