@@ -110,7 +110,9 @@ public class ViewGoalActivity extends AppCompatActivity implements View.OnClickL
         Library.setCurrentGoal(null);
 
         //go back to the home page
-        startActivity(new Intent(getApplicationContext(), WalkingActivity.class));
+        Intent intent = new Intent(getApplicationContext(), WalkingActivity.class);
+        intent.putExtra("show_dialog", true);
+        startActivity(intent);
     }
 
     @Override
