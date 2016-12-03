@@ -122,4 +122,23 @@ public class Challenge implements Serializable {
         string = string.replace("  ", " ").trim();
         return string;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if(other == null || other.getClass() != Challenge.class)
+            return false;
+
+        if(!((Challenge)other).title.equals(this.title))
+            return false;
+        if(!((Challenge)other).restaurant.equals(this.restaurant))
+            return false;
+        if(!((Challenge)other).description.equals(this.description))
+            return false;
+        if(((Challenge)other).stepsRequired != this.stepsRequired)
+            return false;
+        if(((Challenge)other).timeLimitMinutes != this.timeLimitMinutes)
+            return false;
+
+        return true;
+    }
 }

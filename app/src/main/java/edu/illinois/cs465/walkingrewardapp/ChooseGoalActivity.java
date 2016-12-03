@@ -6,6 +6,7 @@ package edu.illinois.cs465.walkingrewardapp;
  */
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;

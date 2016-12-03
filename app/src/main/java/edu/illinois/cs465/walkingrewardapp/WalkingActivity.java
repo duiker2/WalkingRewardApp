@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -19,11 +20,13 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -54,7 +57,7 @@ public class WalkingActivity extends AppCompatActivity implements
         SensorEventListener,
         TouchableWrapper.UpdateMapAfterUserInterection
 {
-    private boolean showedTutorial = false;
+    public CheckBox dontShowAgain;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
     private GoogleMap mMap;
@@ -108,18 +111,32 @@ public class WalkingActivity extends AppCompatActivity implements
         catch (Exception e) {
         }
 
-        if(goal == null)
+        if(goal == null && Library.ShowTutorial())
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater adbInflater = LayoutInflater.from(this);
+            View layout = adbInflater.inflate(R.layout.checkbox, null);
+
+            dontShowAgain = (CheckBox) layout.findViewById(R.id.skip);
+            builder.setView(layout);
             builder.setMessage("You have no goal selected. You can choose a goal by selecting \"Change Goal\" in the top right menu.").setTitle("Tutorial");
             builder.setPositiveButton("Take me there", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
+                    if (dontShowAgain.isChecked()) {
+                        Library.removeTutorial();
+                    }
                     openActivity(ChooseGoalActivity.class);
                 }
             });
             builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {}
+                public void onClick(DialogInterface dialog, int id) {
+                    if (dontShowAgain.isChecked()) {
+                        Library.removeTutorial();
+                    }
+                }
             });
+
+
             AlertDialog dialog = builder.create();
             dialog.show();
         }
