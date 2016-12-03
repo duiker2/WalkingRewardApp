@@ -43,6 +43,7 @@ import static java.lang.Double.valueOf;
 
 import android.widget.ProgressBar;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -122,7 +123,8 @@ public class WalkingActivity extends AppCompatActivity implements
                     int seconds = (int) ((millisUntilFinished / 1000) % 60);
                     int minutes = (int) (((millisUntilFinished / 1000) % 3600) / 60);
                     int hours = (int) ((millisUntilFinished / 1000) / 3600);
-                    textic.setText(Integer.toString(hours) + ":" + Integer.toString(minutes) + ":" + Integer.toString(seconds));
+                    DecimalFormat df = new DecimalFormat("#00");
+                    textic.setText(df.format(hours) + ":" + df.format(minutes) + ":" + df.format(seconds));
                 }
 
                 public void onFinish() {
