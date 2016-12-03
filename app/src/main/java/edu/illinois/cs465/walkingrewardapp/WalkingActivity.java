@@ -54,7 +54,7 @@ public class WalkingActivity extends AppCompatActivity implements
         SensorEventListener,
         TouchableWrapper.UpdateMapAfterUserInterection
 {
-
+    private boolean showedTutorial = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
     private GoogleMap mMap;
@@ -106,6 +106,22 @@ public class WalkingActivity extends AppCompatActivity implements
             }
         }
         catch (Exception e) {
+        }
+
+        if(goal == null)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("You have no goal selected. You can choose a goal by selecting \"Change Goal\" in the top right menu.").setTitle("Tutorial");
+            builder.setPositiveButton("Take me there", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    openActivity(ChooseGoalActivity.class);
+                }
+            });
+            builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {}
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
     }
 

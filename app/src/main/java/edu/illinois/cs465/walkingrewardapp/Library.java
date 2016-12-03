@@ -43,6 +43,7 @@ public class Library {
         //add a reward, if one's not there already
         try {
             if(rewards.size() == 0)
+                nRewardsEarned += 1;
                 rewards.add(new Challenge("Free Sandwich", "Panera", "Want a free sandwich at your " +
                         "favorite coffee shop/bakery/sandwich shop?  Walk 15000 steps in one day " +
                         "and you'll earn it!", 15000, 24 * 60, R.drawable.panera,
