@@ -7,8 +7,8 @@
         android:title="Sort">
         <menu>
             <item
-                android:id="@+id/menu_sort_name"
-                android:title="Sort by name" />
+                android:id="@+id/menu_sort_restaurant"
+                android:title="Sort by restaurant" />
             <item
                 android:id="@+id/menu_sort_steps"
                 android:title="Sort by steps" />

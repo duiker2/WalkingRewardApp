@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.Comparator;
 import java.util.List;
 
 import java.io.Serializable;
@@ -33,6 +34,7 @@ public class ChooseGoalActivity extends AppCompatActivity {
     }
 
     private ChallengeList goals;
+    private CustomList adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class ChooseGoalActivity extends AppCompatActivity {
 
         goals = Library.getGoals();
 
-        CustomList adapter = new CustomList(this, goals);
+        adapter = new CustomList(this, goals);
         ListView list = (ListView)findViewById(R.id.goal_list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -78,6 +80,24 @@ public class ChooseGoalActivity extends AppCompatActivity {
         return true;
     }
 
+    private void sortByRestaurant() {
+        adapter.sort(new Comparator<Challenge>() {
+            @Override
+            public int compare(Challenge lhs, Challenge rhs) {
+                return lhs.getRestaurant().compareTo(rhs.getRestaurant());
+            }
+        });
+    }
+
+    private void sortBySteps() {
+        adapter.sort(new Comparator<Challenge>() {
+            @Override
+            public int compare(Challenge lhs, Challenge rhs) {
+                return -(lhs.getStepsRequired() - rhs.getStepsRequired());
+            }
+        });
+    }
+
     //code is from https://developer.android.com/training/implementing-navigation/ancestral.html
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -90,11 +110,16 @@ public class ChooseGoalActivity extends AppCompatActivity {
                 openActivity(ChooseGoalActivity.class);
                 break;
             case R.id.action_my_rewards:
-                //Toast.makeText(getApplicationContext(), "Thanks for clicking the Rewards button!", Toast.LENGTH_SHORT).show();
                 openActivity(RewardsActivity.class);
                 break;
             case R.id.action_view_statistics:
                 openActivity(StatisticsActivity.class);
+                break;
+            case R.id.menu_sort_restaurant:
+                sortByRestaurant();
+                break;
+            case R.id.menu_sort_steps:
+                sortBySteps();
                 break;
             default:
                 break;

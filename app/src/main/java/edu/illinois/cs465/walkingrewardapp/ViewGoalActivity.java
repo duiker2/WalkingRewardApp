@@ -5,9 +5,11 @@ package edu.illinois.cs465.walkingrewardapp;
  * The generic list code is from https://www.learn2crack.com/2013/10/android-custom-listview-images-text-example.html
  */
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
 import android.view.Menu;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import edu.illinois.cs465.walkingrewardapp.Data.Challenge;
 
@@ -86,14 +89,39 @@ public class ViewGoalActivity extends AppCompatActivity implements View.OnClickL
         return super.onOptionsItemSelected(item);
     }
 
+    private void startThisGoal() {
+        Intent intent = new Intent(this, WalkingActivity.class);
+        intent.putExtra("goal_object", goal);
+        intent.putExtra("start_message", "Start your goal now");
+        startActivity(intent);
+        Library.setCurrentGoal(goal);
+    }
+
     @Override
     public void onClick(View v){
         if (v.getId() == R.id.view_goal_select) {
-            Intent intent = new Intent(this, WalkingActivity.class);
-            intent.putExtra("goal_object", goal);
-            intent.putExtra("start_message", "Start your goal now");
-            startActivity(intent);
-            Library.setCurrentGoal(goal);
+            if(goal.equals(Library.getCurrentGoal())) {
+                Toast.makeText(getApplicationContext(), "You have already selected this goal!", Toast.LENGTH_SHORT).show();
+            }
+            else if(Library.getCurrentGoal() != null) {
+                //they are already in a challenge.  confirm that they want to give up.  quitter
+                new AlertDialog.Builder(this)
+                        .setIcon(R.drawable.walk)
+                        .setTitle("Abandon Goal?")
+                        .setMessage("Are you sure you want to abandon your current progress and start a new goal?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startThisGoal();
+                            }
+
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
+            else
+                startThisGoal();
         }
     }
 }
