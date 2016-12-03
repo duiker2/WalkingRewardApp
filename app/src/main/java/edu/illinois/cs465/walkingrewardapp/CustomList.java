@@ -6,6 +6,7 @@ package edu.illinois.cs465.walkingrewardapp;
  */
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,10 @@ public class CustomList extends ArrayAdapter<Challenge>{
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.restaurant_icon);
         imageView.setImageResource(thisChallenge.getImage());
+
+        if(thisChallenge.equals(Library.getCurrentGoal()))
+            rowView.setBackgroundColor(Color.argb(30, 128, 128, 128));
+
         return rowView;
     }
 }
